@@ -139,6 +139,8 @@ function renderLetters() {
 
   // Pronounce the selected letter name
   $("lsName").onclick = () => speak(L[1], "ar-SA");
+   // Pronounce the example Arabic word
+$("lsWord").onclick = () => speak(L[3], "ar-SA");
 
   // Pronounce the example Arabic word
   // Harakat pronunciation
