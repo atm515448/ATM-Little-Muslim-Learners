@@ -49,45 +49,100 @@ function markSeen(k) {
   try { localStorage.setItem("lml_seen", JSON.stringify([...seen])); } catch (e) {}
 }
 
+
 function renderLetters() {
   const box = $("letters");
+
+  // Remember the current page position
+  const scrollPosition = window.scrollY;
+
   const L = LETTERS[letterState.sel];
+
   markSeen(letterState.sel);
+
   const meaning = lang === "ha" ? L[7] : L[6];
+
   box.innerHTML = `
-    <div class="card"><h2>🔤 ${ui("letters_h")}</h2><p>${ui("letters_p")}</p></div>
+    <div class="card">
+      <h2>🔤 ${ui("letters_h")}</h2>
+      <p>${ui("letters_p")}</p>
+    </div>
+
     <div class="card letter-detail">
       <div class="big-letter">${L[0]}</div>
-      <div class="letter-name"><span class="ar-inline">${L[1]}</span>${lang !== "ar" ? " · " + L[2] : ""}</div>
+
+      <div class="letter-name">
+        <span class="ar-inline">${L[1]}</span>
+        ${lang !== "ar" ? " · " + L[2] : ""}
+      </div>
+
       <div class="emoji">${L[4]}</div>
+
       <div class="arabic">${L[3]}</div>
-      ${lang !== "ar" ? `<div class="translit">${L[5]} = ${meaning}</div>` : ""}
+
+      ${lang !== "ar"
+        ? `<div class="translit">${L[5]} = ${meaning}</div>`
+        : ""}
+
       <div class="btn-row">
-        <button class="btn alt" id="lsName">${ui("letter_sound")}</button>
-        <button class="btn alt" id="lsWord">${ui("word_sound")}</button>
+        <button class="btn alt" id="lsName">
+          🔊 ${ui("letter_sound")}
+        </button>
+
+        <button class="btn alt" id="lsWord">
+          🔊 ${ui("word_sound")}
+        </button>
       </div>
     </div>
+
     <div class="letter-grid">
       ${LETTERS.map((l, k) =>
-        `<button class="letter-tile ${k === letterState.sel ? "sel" : ""} ${seen.has(k) ? "seen" : ""}" data-k="${k}" aria-label="${l[2]}">${l[0]}</button>`).join("")}
+        `<button
+          class="letter-tile ${k === letterState.sel ? "sel" : ""} ${seen.has(k) ? "seen" : ""}"
+          data-k="${k}"
+          aria-label="${l[2]}">
+          ${l[0]}
+        </button>`
+      ).join("")}
     </div>
+
     <div class="card">
-      <h2>${ui("harakat_h")}</h2><p>${ui("harakat_p")}</p>
+      <h2>${ui("harakat_h")}</h2>
+      <p>${ui("harakat_p")}</p>
+
       <div class="harakat">
         <div><span>بَ</span>${ui("fatha")}<br>ba</div>
         <div><span>بِ</span>${ui("kasra")}<br>bi</div>
         <div><span>بُ</span>${ui("damma")}<br>bu</div>
         <div><span>بْ</span>${ui("sukun")}<br>b</div>
       </div>
-    </div>`;
-  $("lsName").onclick = () => speak(L[1]);
-  $("lsWord").onclick = () => speak(L[3]);
-  box.querySelectorAll(".letter-tile").forEach(b => b.onclick = () => {
-    letterState.sel = parseInt(b.dataset.k, 10);
-    renderLetters();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    </div>
+  `;
+
+  // Pronounce the selected letter name
+  $("lsName").onclick = () => speak(L[1], "ar-SA");
+
+  // Pronounce the example Arabic word
+  $("lsWord").onclick = () => speak(L[3], "ar-SA");
+
+  // Select letters without jumping to the top
+  box.querySelectorAll(".letter-tile").forEach(b => {
+    b.onclick = () => {
+      letterState.sel = parseInt(b.dataset.k, 10);
+
+      const selectedLetter = LETTERS[letterState.sel];
+
+      renderLetters();
+
+      // Restore the previous page position
+      window.scrollTo(0, scrollPosition);
+
+      // Automatically pronounce the selected letter
+      speak(selectedLetter[1], "ar-SA");
+    };
   });
 }
+
 
 /* ---------- STEP-BY-STEP LESSON (Wudu and Salah) ---------- */
 
