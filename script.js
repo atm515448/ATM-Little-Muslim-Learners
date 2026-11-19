@@ -111,19 +111,41 @@ function renderLetters() {
       <p>${ui("harakat_p")}</p>
 
       <div class="harakat">
-        <div><span>بَ</span>${ui("fatha")}<br>ba</div>
-        <div><span>بِ</span>${ui("kasra")}<br>bi</div>
-        <div><span>بُ</span>${ui("damma")}<br>bu</div>
-        <div><span>بْ</span>${ui("sukun")}<br>b</div>
-      </div>
-    </div>
+  <div>
+    <span>بَ</span>
+    ${ui("fatha")}<br>ba
+    <button class="btn alt" id="soundFatha">🔊</button>
+  </div>
+
+  <div>
+    <span>بِ</span>
+    ${ui("kasra")}<br>bi
+    <button class="btn alt" id="soundKasra">🔊</button>
+  </div>
+
+  <div>
+    <span>بُ</span>
+    ${ui("damma")}<br>bu
+    <button class="btn alt" id="soundDamma">🔊</button>
+  </div>
+
+  <div>
+    <span>بْ</span>
+    ${ui("sukun")}<br>b
+    <button class="btn alt" id="soundSukun">🔊</button>
+  </div>
+</div>
   `;
 
   // Pronounce the selected letter name
   $("lsName").onclick = () => speak(L[1], "ar-SA");
 
   // Pronounce the example Arabic word
-  $("lsWord").onclick = () => speak(L[3], "ar-SA");
+  // Harakat pronunciation
+$("soundFatha").onclick = () => speak("بَ", "ar-SA");
+$("soundKasra").onclick = () => speak("بِ", "ar-SA");
+$("soundDamma").onclick = () => speak("بُ", "ar-SA");
+$("soundSukun").onclick = () => speak("بْ", "ar-SA");
 
   // Select letters without jumping to the top
   box.querySelectorAll(".letter-tile").forEach(b => {
