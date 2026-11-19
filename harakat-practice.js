@@ -3,14 +3,41 @@
 
 (() => {
   const panel = document.getElementById("harakatPractice");
-
   if (!panel) return;
 
   const questions = [
-    { sound: "Fatha", letter: "بَ", answer: "بَ", options: ["بِ", "بَ", "بُ"] },
-    { sound: "Kasra", letter: "بِ", answer: "بِ", options: ["بُ", "بْ", "بِ"] },
-    { sound: "Damma", letter: "بُ", answer: "بُ", options: ["بَ", "بُ", "بِ"] },
-    { sound: "Sukun", letter: "بْ", answer: "بْ", options: ["بْ", "بَ", "بُ"] }
+    {
+      sound: "Fatha",
+      letter: "بَ",
+      answer: "بَ",
+      options: ["بِ", "بَ", "بُ"],
+      example: "بَابٌ",
+      reading: "Baabun"
+    },
+    {
+      sound: "Kasra",
+      letter: "بِ",
+      answer: "بِ",
+      options: ["بُ", "بْ", "بِ"],
+      example: "بِسْمِ",
+      reading: "Bismi"
+    },
+    {
+      sound: "Damma",
+      letter: "بُ",
+      answer: "بُ",
+      options: ["بَ", "بُ", "بِ"],
+      example: "بُرْجٌ",
+      reading: "Burjun"
+    },
+    {
+      sound: "Sukun",
+      letter: "بْ",
+      answer: "بْ",
+      options: ["بْ", "بَ", "بُ"],
+      example: "بَحْرٌ",
+      reading: "Baḥrun"
+    }
   ];
 
   let current = 0;
@@ -37,7 +64,7 @@
     panel.innerHTML = `
       <div class="card">
         <h2>🎯 Harakat Practice</h2>
-        <p>Listen, learn and choose the correct Arabic sound.</p>
+        <p>Listen, learn and practise Arabic sounds.</p>
 
         <div class="card">
           <h3>⭐ Your Stars: ${stars}</h3>
@@ -50,12 +77,26 @@
             ${q.letter}
           </div>
           <p style="text-align:center">${q.sound}</p>
-          <button class="btn" id="listenSound">🔊 Listen</button>
-          <p>Listen carefully and repeat the sound aloud.</p>
+          <button class="btn" id="listenSound">🔊 Listen to Sound</button>
+          <p>Listen carefully and repeat aloud.</p>
         </div>
 
         <div class="card">
-          <h3>Choose the correct sound</h3>
+          <h3>Example Word</h3>
+          <div style="font-size:55px;text-align:center;margin:20px">
+            ${q.example}
+          </div>
+          <p style="text-align:center">
+            Reading: ${q.reading}
+          </p>
+          <button class="btn" id="listenExample">
+            🔊 Listen to Example
+          </button>
+          <p>Listen to the word and repeat it aloud.</p>
+        </div>
+
+        <div class="card">
+          <h3>Choose the Correct Sound</h3>
           <p>Which symbol is ${q.sound}?</p>
 
           <div id="answerOptions">
@@ -69,8 +110,9 @@
           </div>
 
           <p id="feedback" aria-live="polite"></p>
+
           <button class="btn" id="nextQuestion" disabled>
-            ${current === questions.length - 1 ? "Finish Practice" : "Next Question"}
+            Next Question
           </button>
         </div>
       </div>
@@ -78,6 +120,10 @@
 
     document.getElementById("listenSound").onclick = () => {
       speak(q.letter);
+    };
+
+    document.getElementById("listenExample").onclick = () => {
+      speak(q.example);
     };
 
     document.querySelectorAll(".practice-option").forEach(button => {
@@ -100,7 +146,7 @@
       stars++;
       feedback.textContent = "⭐ Correct! Well done!";
     } else {
-      feedback.textContent = "Try again next time! Listen carefully.";
+      feedback.textContent = "Try again next time! Keep practising.";
     }
 
     document.querySelectorAll(".practice-option").forEach(button => {
@@ -113,7 +159,9 @@
 
     nextButton.disabled = false;
     nextButton.textContent =
-      current === questions.length - 1 ? "Finish Practice" : "Next Question";
+      current === questions.length - 1
+        ? "Finish Practice"
+        : "Next Question";
   }
 
   function next() {
@@ -134,7 +182,9 @@
         <h2>🎉 Practice Completed!</h2>
         <h3>⭐ You earned ${stars} out of ${questions.length} stars.</h3>
         <p>Keep practising your Arabic Harakat. Well done!</p>
-        <button class="btn" id="restartPractice">🔄 Practise Again</button>
+        <button class="btn" id="restartPractice">
+          🔄 Practise Again
+        </button>
       </div>
     `;
 
@@ -148,4 +198,3 @@
 
   render();
 })();
-  
