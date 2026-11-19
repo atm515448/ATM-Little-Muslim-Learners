@@ -22,7 +22,7 @@
     <div class="stars" aria-live="polite">⭐ <span data-i18n="stars"></span>: <span id="starCount">0</span></div>
   </header>
 
-  <nav class="tabs" role="tablist">
+  <button class="tab" data-tab="harakatPractice">🎯 <span>Harakat Practice</span></button>
     <button class="tab active" data-tab="letters">🔤 <span data-i18n="tab_letters"></span></button>
     <button class="tab" data-tab="wudu">💧 <span data-i18n="tab_wudu"></span></button>
     <button class="tab" data-tab="salah">🕌 <span data-i18n="tab_salah"></span></button>
@@ -32,6 +32,7 @@
 
   <main>
     <section id="letters" class="panel active"></section>
+    <section id="harakatPractice" class="panel"></section>
     <section id="wudu" class="panel"></section>
     <section id="salah" class="panel"></section>
     <section id="azkar" class="panel"></section>
@@ -99,5 +100,6 @@
 
 <script src="data.js"></script>
 <script src="script.js"></script>
+  <script src="harakat-practice.js"></script>
 </body>
 </html>
