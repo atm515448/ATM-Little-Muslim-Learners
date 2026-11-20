@@ -733,3 +733,46 @@ html[data-text-size="large"] body {
   }
   }
     
+
+/* ---------- REFINED ICON AND LOGO SIZES ---------- */
+
+/* Reduce decorative emojis */
+.emoji {
+  font-size: 1.8rem;
+  margin: 6px 0;
+}
+
+/* Make the header logo more balanced */
+.hero .logo {
+  width: 88px;
+  height: 88px;
+  border-width: 4px;
+}
+
+footer .logo.small {
+  width: 64px;
+  height: 64px;
+}
+
+/* Reduce oversized Harakat Practice symbols */
+#harakatPractice div[style*="font-size:70px"] {
+  font-size: 2.8rem !important;
+  margin: 12px !important;
+}
+
+#harakatPractice div[style*="font-size:55px"] {
+  font-size: 2.2rem !important;
+  margin: 12px !important;
+}
+
+#harakatPractice .practice-option {
+  font-size: 1.4rem !important;
+  padding: 9px 16px;
+}
+
+/* Make Azkar counter button slightly smaller */
+.tap {
+  width: 105px;
+  height: 105px;
+  font-size: 1rem;
+}
