@@ -8,11 +8,10 @@
 
   <meta
     name="description"
-    content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar and Quran learning in English, Hausa and Arabic."
+    content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Asma'ul Husna and Quran learning in English, Hausa and Arabic."
   />
 
   <title>ATM Little Muslim Learners | ATM Digital Solutions &amp; Services</title>
-
   <link rel="icon" type="image/png" href="icon-192.png" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
@@ -30,7 +29,6 @@
 </head>
 
 <body>
-
   <!-- HEADER -->
   <header class="hero">
     <img
@@ -78,31 +76,51 @@
 
   <!-- HOME SCREEN -->
   <main>
-
     <section id="home" class="panel active">
+
       <div class="card" style="text-align:center;">
         <div class="emoji">🌙 ⭐ 🕌</div>
+
         <h2>Welcome to Little Muslim Learners!</h2>
         <p>Learn Islam step by step through fun and simple lessons.</p>
         <p>Mu koyi addinin Musulunci tare!</p>
-        <p dir="rtl" class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+
+        <p dir="rtl" class="arabic">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </p>
       </div>
 
       <div class="card">
         <h2>📚 Your Learning Centre</h2>
         <p>Choose a lesson below and start learning.</p>
+
         <div class="btn-row">
-          <button class="btn" type="button" data-open-tab="letters">🔤 Arabic Letters</button>
-          <button class="btn alt" type="button" data-open-tab="harakatPractice">🎯 Harakat Practice</button>
-          <button class="btn" type="button" data-open-tab="wudu">💧 Learn Wudu</button>
-          <button class="btn alt" type="button" data-open-tab="salah">🕌 Learn Salah</button>
-          <button class="btn" type="button" data-open-tab="azkar">📿 Daily Azkar</button>
-          <button class="btn alt" type="button" data-open-tab="asmaulHusna">
-  🌟 Asma'ul Husna
+          <button class="btn" type="button" data-open-tab="letters">
+            🔤 Arabic Letters
           </button>
-          <button class="btn alt" type="button" data-open-tab="quiz">🏆 Quiz Time</button>
-          <button class="tab" data-tab="asmaulHusna">
-  🌟 <span>Asma'ul Husna</span>
+
+          <button class="btn alt" type="button" data-open-tab="harakatPractice">
+            🎯 Harakat Practice
+          </button>
+
+          <button class="btn" type="button" data-open-tab="wudu">
+            💧 Learn Wudu
+          </button>
+
+          <button class="btn alt" type="button" data-open-tab="salah">
+            🕌 Learn Salah
+          </button>
+
+          <button class="btn" type="button" data-open-tab="azkar">
+            📿 Daily Azkar
+          </button>
+
+          <button class="btn alt" type="button" data-open-tab="quiz">
+            🏆 Quiz Time
+          </button>
+
+          <button class="btn" type="button" data-open-tab="asmaulHusna">
+            🌟 Asma'ul Husna
           </button>
         </div>
       </div>
@@ -118,11 +136,15 @@
         <p>Every small step in learning is important. Keep going!</p>
         <p>Allah ya taimake mu wajen neman ilimi.</p>
       </div>
+
     </section>
 
     <!-- LESSON NAVIGATION -->
     <nav class="tabs" aria-label="Main lessons">
-      <button class="tab active" data-tab="home">🏠 Home</button>
+
+      <button class="tab active" data-tab="home">
+        🏠 Home
+      </button>
 
       <button class="tab" data-tab="harakatPractice">
         🎯 <span>Harakat Practice</span>
@@ -147,14 +169,26 @@
       <button class="tab" data-tab="quiz">
         🎯 <span data-i18n="tab_quiz"></span>
       </button>
+
+      <button class="tab" data-tab="asmaulHusna">
+        🌟 <span>Asma'ul Husna</span>
+      </button>
+
     </nav>
 
+    <!-- LESSON PANELS -->
     <section id="letters" class="panel"></section>
+
     <section id="harakatPractice" class="panel"></section>
+
     <section id="wudu" class="panel"></section>
+
     <section id="salah" class="panel"></section>
+
     <section id="azkar" class="panel"></section>
+
     <section id="quiz" class="panel"></section>
+
     <section id="asmaulHusna" class="panel"></section>
 
   </main>
@@ -183,19 +217,25 @@
     </div>
 
     <div class="contact">
-      <a class="btn alt" href="tel:+2348133515448">📞 08133515448</a>
+      <a class="btn alt" href="tel:+2348133515448">
+        📞 08133515448
+      </a>
 
       <a
         class="btn alt"
         href="https://wa.me/2348133515448"
         target="_blank"
         rel="noopener"
-      >💬 WhatsApp</a>
+      >
+        💬 WhatsApp
+      </a>
 
       <a
         class="btn alt"
         href="mailto:atmdigitalservice@gmail.com"
-      >✉️ atmdigitalservice@gmail.com</a>
+      >
+        ✉️ atmdigitalservice@gmail.com
+      </a>
     </div>
 
     <p class="note" data-i18n="note"></p>
@@ -216,5 +256,5 @@
   <script src="firebase.js"></script>
 
 </body>
-        </html>
-        
+  </html>
+  
