@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#14247a" />
+  <meta name="theme-color" content="#263b91" />
 
   <meta
     name="description"
-    content="Little Muslim Learners by ATM Digital Solutions & Services: Arabic letters, Wudu, Salah and Azkar for children in English, Hausa and Arabic."
+    content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar and Quran learning in English, Hausa and Arabic."
   />
 
-  <title>Little Muslim Learners | ATM Digital Solutions &amp; Services</title>
+  <title>ATM Little Muslim Learners | ATM Digital Solutions &amp; Services</title>
 
   <link rel="icon" type="image/png" href="icon-192.png" />
   <link rel="manifest" href="manifest.json" />
@@ -27,11 +27,11 @@
     gtag('js', new Date());
     gtag('config', 'G-JNR4SP2C40');
   </script>
-
 </head>
 
 <body>
 
+  <!-- HEADER -->
   <header class="hero">
     <img
       class="logo"
@@ -42,7 +42,6 @@
     />
 
     <h1>🌙 <span data-i18n="appName"></span></h1>
-
     <p data-i18n="tagline"></p>
 
     <div class="langbar" role="group" aria-label="Language">
@@ -57,52 +56,104 @@
     </div>
   </header>
 
-  <nav class="tabs" aria-label="Main lessons">
+  <!-- SETTINGS -->
+  <section class="card" id="settingsPanel">
+    <details>
+      <summary style="font-weight:bold;cursor:pointer;color:var(--navy);">
+        ⚙️ Settings / Saituna
+      </summary>
 
-    <button class="tab" data-tab="harakatPractice">
-      🎯 <span>Harakat Practice</span>
-    </button>
+      <div style="margin-top:15px;">
+        <h3>🌗 Appearance</h3>
+        <button class="btn alt" id="themeLight" type="button">☀️ Light Mode</button>
+        <button class="btn" id="themeDark" type="button">🌙 Dark Mode</button>
 
-    <button class="tab active" data-tab="letters">
-      🔤 <span data-i18n="tab_letters"></span>
-    </button>
+        <h3>🔠 Text Size</h3>
+        <button class="btn alt" id="textSmall" type="button">A− Small</button>
+        <button class="btn" id="textMedium" type="button">A Medium</button>
+        <button class="btn alt" id="textLarge" type="button">A+ Large</button>
+      </div>
+    </details>
+  </section>
 
-    <button class="tab" data-tab="wudu">
-      💧 <span data-i18n="tab_wudu"></span>
-    </button>
-
-    <button class="tab" data-tab="salah">
-      🕌 <span data-i18n="tab_salah"></span>
-    </button>
-
-    <button class="tab" data-tab="azkar">
-      📿 <span data-i18n="tab_azkar"></span>
-    </button>
-
-    <button class="tab" data-tab="quiz">
-      🎯 <span data-i18n="tab_quiz"></span>
-    </button>
-
-  </nav>
-
+  <!-- HOME SCREEN -->
   <main>
 
-    <section id="letters" class="panel active"></section>
+    <section id="home" class="panel active">
+      <div class="card" style="text-align:center;">
+        <div class="emoji">🌙 ⭐ 🕌</div>
+        <h2>Welcome to Little Muslim Learners!</h2>
+        <p>Learn Islam step by step through fun and simple lessons.</p>
+        <p>Mu koyi addinin Musulunci tare!</p>
+        <p dir="rtl" class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      </div>
 
+      <div class="card">
+        <h2>📚 Your Learning Centre</h2>
+        <p>Choose a lesson below and start learning.</p>
+        <div class="btn-row">
+          <button class="btn" type="button" data-open-tab="letters">🔤 Arabic Letters</button>
+          <button class="btn alt" type="button" data-open-tab="harakatPractice">🎯 Harakat Practice</button>
+          <button class="btn" type="button" data-open-tab="wudu">💧 Learn Wudu</button>
+          <button class="btn alt" type="button" data-open-tab="salah">🕌 Learn Salah</button>
+          <button class="btn" type="button" data-open-tab="azkar">📿 Daily Azkar</button>
+          <button class="btn alt" type="button" data-open-tab="quiz">🏆 Quiz Time</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⭐ Your Learning Progress</h2>
+        <p>Stars earned: <strong id="homeStarCount">0</strong></p>
+        <p>Keep learning and collecting stars!</p>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <h2>🌟 Daily Encouragement</h2>
+        <p>Every small step in learning is important. Keep going!</p>
+        <p>Allah ya taimake mu wajen neman ilimi.</p>
+      </div>
+    </section>
+
+    <!-- LESSON NAVIGATION -->
+    <nav class="tabs" aria-label="Main lessons">
+      <button class="tab active" data-tab="home">🏠 Home</button>
+
+      <button class="tab" data-tab="harakatPractice">
+        🎯 <span>Harakat Practice</span>
+      </button>
+
+      <button class="tab" data-tab="letters">
+        🔤 <span data-i18n="tab_letters"></span>
+      </button>
+
+      <button class="tab" data-tab="wudu">
+        💧 <span data-i18n="tab_wudu"></span>
+      </button>
+
+      <button class="tab" data-tab="salah">
+        🕌 <span data-i18n="tab_salah"></span>
+      </button>
+
+      <button class="tab" data-tab="azkar">
+        📿 <span data-i18n="tab_azkar"></span>
+      </button>
+
+      <button class="tab" data-tab="quiz">
+        🎯 <span data-i18n="tab_quiz"></span>
+      </button>
+    </nav>
+
+    <section id="letters" class="panel"></section>
     <section id="harakatPractice" class="panel"></section>
-
     <section id="wudu" class="panel"></section>
-
     <section id="salah" class="panel"></section>
-
     <section id="azkar" class="panel"></section>
-
     <section id="quiz" class="panel"></section>
 
   </main>
 
+  <!-- FOOTER -->
   <footer>
-
     <img
       class="logo small"
       src="logo.png"
@@ -115,63 +166,47 @@
       <strong>ATM Digital Solutions &amp; Services</strong>
     </p>
 
-    <p class="slogan">
-      Learn • Collaborate • Achieve
-    </p>
+    <p class="slogan">Learn • Collaborate • Achieve</p>
 
     <div class="developer-info">
-
       <p>Developed by</p>
-
       <h2>Abdussalam Tahir</h2>
-
       <p><strong>Founder &amp; Developer</strong></p>
-
       <p>ATM Digital Solutions &amp; Services</p>
-
     </div>
 
     <div class="contact">
-
-      <a class="btn alt" href="tel:+2348133515448">
-        📞 08133515448
-      </a>
+      <a class="btn alt" href="tel:+2348133515448">📞 08133515448</a>
 
       <a
         class="btn alt"
         href="https://wa.me/2348133515448"
         target="_blank"
         rel="noopener"
-      >
-        💬 WhatsApp
-      </a>
+      >💬 WhatsApp</a>
 
       <a
         class="btn alt"
         href="mailto:atmdigitalservice@gmail.com"
-      >
-        ✉️ atmdigitalservice@gmail.com
-      </a>
-
+      >✉️ atmdigitalservice@gmail.com</a>
     </div>
 
     <p class="note" data-i18n="note"></p>
-
   </footer>
 
-  <!-- Application JavaScript -->
-  
-<script src="data.js"></script>
-<script src="script.js"></script>
-<script src="harakat-practice.js"></script>
+  <!-- APPLICATION JAVASCRIPT -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+  <script src="harakat-practice.js"></script>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <!-- FIREBASE SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 
-<!-- ATM Firebase Connection -->
-<script src="firebase.js"></script>
+  <!-- ATM FIREBASE CONNECTION -->
+  <script src="firebase.js"></script>
 
 </body>
-</html>
+        </html>
+        
