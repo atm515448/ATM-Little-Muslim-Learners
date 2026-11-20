@@ -390,3 +390,179 @@ if (document.readyState === "loading") {
   initializeAsmaulHusna();
    }
     
+
+/* =====================================
+   DAILY ASMA'UL HUSNA CHALLENGE
+===================================== */
+
+(function setupDailyAsmaChallenge() {
+  const originalRender = renderAsmaulHusna;
+
+  const dateKey = () => {
+    const d = new Date();
+    return [
+      d.getFullYear(),
+      String(d.getMonth() + 1).padStart(2, "0"),
+      String(d.getDate()).padStart(2, "0")
+    ].join("-");
+  };
+
+  function getDailyNames() {
+    const start = Math.floor(
+      (new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) -
+      new Date(new Date().getFullYear(), 0, 0)) / 86400000
+    );
+
+    const first = ((start - 1) * 3) % 99;
+
+    return [0, 1, 2].map(i => (first + i) % 99);
+  }
+
+  function getProgress() {
+    const key = "lml_asma_daily_" + dateKey();
+
+    try {
+      return JSON.parse(localStorage.getItem(key)) || {
+        completed: [],
+        rewarded: false
+      };
+    } catch {
+      return { completed: [], rewarded: false };
+    }
+  }
+
+  function saveProgress(progress) {
+    localStorage.setItem(
+      "lml_asma_daily_" + dateKey(),
+      JSON.stringify(progress)
+    );
+  }
+
+  function addDailyChallenge() {
+    const panel = document.getElementById("asmaulHusna");
+    if (!panel) return;
+
+    const names = getDailyNames();
+    const progress = getProgress();
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.id = "dailyAsmaChallenge";
+
+    const heading = document.createElement("h2");
+    heading.textContent = "🎯 Daily Challenge";
+
+    const instruction = document.createElement("p");
+    instruction.textContent =
+      "Learn these 3 Names of Allah today. Tick each one when you have learned it.";
+
+    const hausa = document.createElement("p");
+    hausa.textContent =
+      "Ka koyi wadannan sunayen Allah guda 3 yau. Yi alama idan ka koyi kowanne.";
+
+    const list = document.createElement("div");
+    list.style.marginTop = "12px";
+
+    names.forEach(index => {
+      const name = asmaulHusnaNames[index];
+      const item = document.createElement("label");
+
+      item.style.display = "flex";
+      item.style.alignItems = "center";
+      item.style.gap = "10px";
+      item.style.padding = "12px";
+      item.style.margin = "8px 0";
+      item.style.borderRadius = "10px";
+      item.style.background = "var(--bg, #f3f5ff)";
+      item.style.cursor = "pointer";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = progress.completed.includes(index);
+      checkbox.disabled = progress.rewarded;
+
+      const details = document.createElement("span");
+      details.innerHTML = "";
+
+      const arabic = document.createElement("strong");
+      arabic.textContent = name[0] + " ";
+
+      const transliteration = document.createElement("span");
+      transliteration.textContent = name[1];
+
+      const meaning = document.createElement("small");
+      meaning.textContent = name[2] + " / " + name[3];
+      meaning.style.display = "block";
+      meaning.style.opacity = ".8";
+
+      details.append(arabic, transliteration, meaning);
+      item.append(checkbox, details);
+      list.appendChild(item);
+
+      checkbox.addEventListener("change", () => {
+        const current = getProgress();
+
+        if (checkbox.checked) {
+          if (!current.completed.includes(index)) {
+            current.completed.push(index);
+          }
+        } else {
+          current.completed = current.completed.filter(
+            n => n !== index
+          );
+        }
+
+        if (
+          current.completed.length === 3 &&
+          !current.rewarded
+        ) {
+          current.rewarded = true;
+          saveProgress(current);
+
+          if (typeof addStars === "function") {
+            addStars(1);
+          }
+
+          alert("Masha Allah! You completed today's challenge and earned 1 star!");
+        } else {
+          saveProgress(current);
+        }
+
+        addDailyChallenge();
+      });
+    });
+
+    const status = document.createElement("p");
+    status.id = "dailyAsmaStatus";
+    status.style.fontWeight = "bold";
+    status.style.textAlign = "center";
+
+    if (progress.rewarded) {
+      status.textContent = "🏆 Completed! You earned 1 star today. Masha Allah!";
+    } else {
+      status.textContent =
+        "Progress: " + progress.completed.length + " / 3 completed";
+    }
+
+    card.append(heading, instruction, hausa, list, status);
+
+    const existing = document.getElementById("dailyAsmaChallenge");
+    if (existing) existing.remove();
+
+    const searchCard = panel.querySelector("#asmaSearch")?.closest(".card");
+
+    if (searchCard) {
+      panel.insertBefore(card, searchCard);
+    } else {
+      panel.appendChild(card);
+    }
+  }
+
+  renderAsmaulHusna = function(searchTerm = "") {
+    originalRender(searchTerm);
+    addDailyChallenge();
+  };
+
+  renderAsmaulHusna();
+})();
+      
