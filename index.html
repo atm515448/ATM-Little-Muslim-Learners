@@ -1,106 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#14247a" />
-  <meta name="description" content="Little Muslim Learners by ATM Digital Solutions & Services: Arabic letters, Wudu, Salah and Azkar for children in English, Hausa and Arabic." />
+
+  <meta
+    name="description"
+    content="Little Muslim Learners by ATM Digital Solutions & Services: Arabic letters, Wudu, Salah and Azkar for children in English, Hausa and Arabic."
+  />
+
   <title>Little Muslim Learners | ATM Digital Solutions &amp; Services</title>
+
   <link rel="icon" type="image/png" href="icon-192.png" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNR4SP2C40"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-JNR4SP2C40');
+  </script>
+
 </head>
+
 <body>
+
   <header class="hero">
-    <img class="logo" src="logo.png" alt="ATM Digital Solutions & Services logo" width="120" height="120" />
+    <img
+      class="logo"
+      src="logo.png"
+      alt="ATM Digital Solutions & Services logo"
+      width="120"
+      height="120"
+    />
+
     <h1>🌙 <span data-i18n="appName"></span></h1>
+
     <p data-i18n="tagline"></p>
+
     <div class="langbar" role="group" aria-label="Language">
       <button class="lang" data-lang="en">English</button>
       <button class="lang" data-lang="ha">Hausa</button>
       <button class="lang" data-lang="ar">العربية</button>
     </div>
-    <div class="stars" aria-live="polite">⭐ <span data-i18n="stars"></span>: <span id="starCount">0</span></div>
+
+    <div class="stars" aria-live="polite">
+      ⭐ <span data-i18n="stars"></span>:
+      <span id="starCount">0</span>
+    </div>
   </header>
-<nav class="tabs" aria-label="Main lessons">
-  <button class="tab" data-tab="harakatPractice">🎯 <span>Harakat Practice</span></button>
-    <button class="tab active" data-tab="letters">🔤 <span data-i18n="tab_letters"></span></button>
-    <button class="tab" data-tab="wudu">💧 <span data-i18n="tab_wudu"></span></button>
-    <button class="tab" data-tab="salah">🕌 <span data-i18n="tab_salah"></span></button>
-    <button class="tab" data-tab="azkar">📿 <span data-i18n="tab_azkar"></span></button>
-    <button class="tab" data-tab="quiz">🎯 <span data-i18n="tab_quiz"></span></button>
+
+  <nav class="tabs" aria-label="Main lessons">
+
+    <button class="tab" data-tab="harakatPractice">
+      🎯 <span>Harakat Practice</span>
+    </button>
+
+    <button class="tab active" data-tab="letters">
+      🔤 <span data-i18n="tab_letters"></span>
+    </button>
+
+    <button class="tab" data-tab="wudu">
+      💧 <span data-i18n="tab_wudu"></span>
+    </button>
+
+    <button class="tab" data-tab="salah">
+      🕌 <span data-i18n="tab_salah"></span>
+    </button>
+
+    <button class="tab" data-tab="azkar">
+      📿 <span data-i18n="tab_azkar"></span>
+    </button>
+
+    <button class="tab" data-tab="quiz">
+      🎯 <span data-i18n="tab_quiz"></span>
+    </button>
+
   </nav>
 
   <main>
+
     <section id="letters" class="panel active"></section>
+
     <section id="harakatPractice" class="panel"></section>
+
     <section id="wudu" class="panel"></section>
+
     <section id="salah" class="panel"></section>
+
     <section id="azkar" class="panel"></section>
+
     <section id="quiz" class="panel"></section>
+
   </main>
 
-  
-<footer>
+  <footer>
 
-  <img
-    class="logo small"
-    src="logo.png"
-    alt="ATM Digital Solutions & Services"
-    width="80"
-    height="80"
-  />
+    <img
+      class="logo small"
+      src="logo.png"
+      alt="ATM Digital Solutions & Services"
+      width="80"
+      height="80"
+    />
 
-  <p class="brand">
-    <strong>ATM Digital Solutions &amp; Services</strong>
-  </p>
+    <p class="brand">
+      <strong>ATM Digital Solutions &amp; Services</strong>
+    </p>
 
-  <p class="slogan">
-    Learn • Collaborate • Achieve
-  </p>
+    <p class="slogan">
+      Learn • Collaborate • Achieve
+    </p>
 
-  <div class="developer-info">
+    <div class="developer-info">
 
-    <p>Developed by</p>
+      <p>Developed by</p>
 
-    <h2>Abdussalam Tahir</h2>
+      <h2>Abdussalam Tahir</h2>
 
-    <p><strong>Founder &amp; Developer</strong></p>
+      <p><strong>Founder &amp; Developer</strong></p>
 
-    <p>ATM Digital Solutions &amp; Services</p>
+      <p>ATM Digital Solutions &amp; Services</p>
 
-  </div>
+    </div>
 
-  <div class="contact">
+    <div class="contact">
 
-    <a class="btn alt" href="tel:+2348133515448">
-      📞 08133515448
-    </a>
+      <a class="btn alt" href="tel:+2348133515448">
+        📞 08133515448
+      </a>
 
-    <a
-      class="btn alt"
-      href="https://wa.me/2348133515448"
-      target="_blank"
-      rel="noopener"
-    >
-      💬 WhatsApp
-    </a>
+      <a
+        class="btn alt"
+        href="https://wa.me/2348133515448"
+        target="_blank"
+        rel="noopener"
+      >
+        💬 WhatsApp
+      </a>
 
-    <a
-      class="btn alt"
-      href="mailto:atmdigitalservice@gmail.com"
-    >
-      ✉️ atmdigitalservice@gmail.com
-    </a>
+      <a
+        class="btn alt"
+        href="mailto:atmdigitalservice@gmail.com"
+      >
+        ✉️ atmdigitalservice@gmail.com
+      </a>
 
-  </div>
+    </div>
 
-  <p class="note" data-i18n="note"></p>
+    <p class="note" data-i18n="note"></p>
 
-</footer>
+  </footer>
 
-<script src="data.js"></script>
-<script src="script.js"></script>
+  <!-- Application JavaScript -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
   <script src="harakat-practice.js"></script>
+
 </body>
 </html>
