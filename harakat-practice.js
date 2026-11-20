@@ -41,8 +41,16 @@
   ];
 
   let current = 0;
-  let stars = 0;
+  let practiceStars = 0;
   let answered = false;
+
+  function getTotalStars() {
+    try {
+      return Number(localStorage.getItem("lml_stars") || 0);
+    } catch (e) {
+      return 0;
+    }
+  }
 
   function speak(text) {
     if (!("speechSynthesis" in window)) {
@@ -66,44 +74,37 @@
         <h2>🎯 Harakat Practice</h2>
         <p>Listen, learn and practise Arabic sounds.</p>
 
-        <div class="card">
-          <h3>⭐ Your Stars: ${stars}</h3>
+        <div class="practice-progress-card">
+          <h3>⭐ Your Total Stars: <span id="practiceTotalStars">${getTotalStars()}</span></h3>
           <p>Question ${current + 1} of ${questions.length}</p>
+          <div class="progress">
+            <div style="width:${((current + 1) / questions.length) * 100}%"></div>
+          </div>
         </div>
 
-        <div class="card">
-          <h3>Listen and Repeat</h3>
-          <div style="font-size:70px;text-align:center;margin:20px">
-            ${q.letter}
-          </div>
-          <p style="text-align:center">${q.sound}</p>
+        <div class="card practice-section">
+          <h3>🔊 Listen and Repeat</h3>
+          <div class="practice-arabic">${q.letter}</div>
+          <p class="practice-label">${q.sound}</p>
           <button class="btn" id="listenSound">🔊 Listen to Sound</button>
           <p>Listen carefully and repeat aloud.</p>
         </div>
 
-        <div class="card">
-          <h3>Example Word</h3>
-          <div style="font-size:55px;text-align:center;margin:20px">
-            ${q.example}
-          </div>
-          <p style="text-align:center">
-            Reading: ${q.reading}
-          </p>
-          <button class="btn" id="listenExample">
-            🔊 Listen to Example
-          </button>
-          <p>Listen to the word and repeat it aloud.</p>
+        <div class="card practice-section">
+          <h3>📖 Example Word</h3>
+          <div class="practice-arabic">${q.example}</div>
+          <p>Reading: ${q.reading}</p>
+          <button class="btn alt" id="listenExample">🔊 Listen to Example</button>
         </div>
 
-        <div class="card">
-          <h3>Choose the Correct Sound</h3>
+        <div class="card practice-section">
+          <h3>🎯 Choose the Correct Sound</h3>
           <p>Which symbol is ${q.sound}?</p>
 
-          <div id="answerOptions">
+          <div class="practice-options">
             ${q.options.map(option => `
               <button class="btn alt practice-option"
-                data-answer="${option}"
-                style="font-size:30px;margin:5px">
+                data-answer="${option}">
                 ${option}
               </button>
             `).join("")}
@@ -118,13 +119,8 @@
       </div>
     `;
 
-    document.getElementById("listenSound").onclick = () => {
-      speak(q.letter);
-    };
-
-    document.getElementById("listenExample").onclick = () => {
-      speak(q.example);
-    };
+    document.getElementById("listenSound").onclick = () => speak(q.letter);
+    document.getElementById("listenExample").onclick = () => speak(q.example);
 
     document.querySelectorAll(".practice-option").forEach(button => {
       button.onclick = () => checkAnswer(button.dataset.answer);
@@ -143,7 +139,14 @@
     const nextButton = document.getElementById("nextQuestion");
 
     if (answer === q.answer) {
-      stars++;
+      practiceStars++;
+
+      // Add the earned star to the main app's shared total.
+      if (typeof window.addStars === "function") {
+        window.addStars(1);
+      }
+
+      document.getElementById("practiceTotalStars").textContent = getTotalStars();
       feedback.textContent = "⭐ Correct! Well done!";
     } else {
       feedback.textContent = "Try again next time! Keep practising.";
@@ -153,7 +156,7 @@
       button.disabled = true;
 
       if (button.dataset.answer === q.answer) {
-        button.style.border = "3px solid green";
+        button.classList.add("correct");
       }
     });
 
@@ -178,9 +181,11 @@
 
   function showResult() {
     panel.innerHTML = `
-      <div class="card">
-        <h2>🎉 Practice Completed!</h2>
-        <h3>⭐ You earned ${stars} out of ${questions.length} stars.</h3>
+      <div class="card practice-result">
+        <div class="emoji">🎉</div>
+        <h2>Practice Completed!</h2>
+        <h3>⭐ You earned ${practiceStars} out of ${questions.length} stars.</h3>
+        <p>Your total stars: <strong>${getTotalStars()}</strong></p>
         <p>Keep practising your Arabic Harakat. Well done!</p>
         <button class="btn" id="restartPractice">
           🔄 Practise Again
@@ -190,7 +195,7 @@
 
     document.getElementById("restartPractice").onclick = () => {
       current = 0;
-      stars = 0;
+      practiceStars = 0;
       answered = false;
       render();
     };
@@ -198,3 +203,4 @@
 
   render();
 })();
+    
