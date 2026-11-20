@@ -358,3 +358,12 @@ document.querySelectorAll(".tab").forEach(btn => {
 
 quizStart();
 renderAll();
+// REGISTER SERVICE WORKER FOR OFFLINE SUPPORT
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .then(() => console.log("App offline support activated"))
+      .catch(error => console.error("Service worker error:", error));
+  });
+}
