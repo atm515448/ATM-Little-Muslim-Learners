@@ -1,0 +1,21 @@
+
+{
+  "name": "ATM Little Muslim Learners",
+  "short_name": "Little Muslim",
+  "description": "Learn Arabic letters, Wudu, Salah and Azkar in English, Hausa and Arabic.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14247a",
+  "theme_color": "#14247a",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
