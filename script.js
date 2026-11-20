@@ -28,11 +28,22 @@ function addStars(n) {
 /* ---------- HELPERS ---------- */
 
 function speak(text, voiceLang) {
-  if (!("speechSynthesis" in window)) return;
+  if (!("speechSynthesis" in window)) {
+    alert("Audio is not supported by this browser.");
+    return;
+  }
+
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(String(text).replace(/۝/g, "،"));
+
+  const u = new SpeechSynthesisUtterance(String(text));
   u.lang = voiceLang || "ar-SA";
-  u.rate = 0.75;
+  u.rate = 0.65;
+  u.pitch = 1;
+
+  u.onerror = function(event) {
+    console.log("Speech error:", event.error);
+  };
+
   window.speechSynthesis.speak(u);
 }
 
