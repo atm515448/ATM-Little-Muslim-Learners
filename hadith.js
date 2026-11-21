@@ -107,10 +107,10 @@
     });
   }
 
-  function audioURL(number) {
-    return AUDIO_BASE + "nawawi" +
-      String(number).padStart(2, "0") + ".mp3";
-  }
+function audioURL(number) {
+  return AUDIO_BASE +
+    String(number).padStart(2, "0") + ".mp3";
+}
 
   async function loadEdition(url) {
     const response = await fetch(url);
