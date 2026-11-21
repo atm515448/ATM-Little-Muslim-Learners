@@ -163,7 +163,203 @@ document.querySelectorAll("[data-open-tab]").forEach(button => {
   });
 });
 
-/* ---------- AUDIO ---------- */
+
+/* ---------- AUDIO + AYATUL KURSI PHRASE PLAYER ---------- */
+
+let ayatulParts = [];
+let ayatulIndex = 0;
+let ayatulPlaying = false;
+let ayatulPaused = false;
+let ayatulTimer = null;
+let ayatulToken = 0;
+
+const AYATUL_KURSI_PHRASES = [
+  "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ",
+  "لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ",
+  "لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ",
+  "مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ",
+  "يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ",
+  "وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ",
+  "وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ",
+  "وَلَا يَئُودُهُ حِفْظُهُمَا",
+  "وَهُوَ الْعَلِيُّ الْعَظِيمُ"
+];
+
+function stopAyatulKursi() {
+  ayatulToken++;
+  ayatulPlaying = false;
+  ayatulPaused = false;
+
+  if (ayatulTimer) {
+    clearTimeout(ayatulTimer);
+    ayatulTimer = null;
+  }
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  updateAyatulStatus("Stopped");
+}
+
+function updateAyatulStatus(message) {
+  const status = document.getElementById("ayatulStatus");
+  if (!status) return;
+
+  if (message === "Stopped") {
+    status.textContent = "Stopped";
+  } else if (message === "Completed") {
+    status.textContent = "Completed — 9 of 9 phrases";
+  } else {
+    status.textContent =
+      message + " — Phrase " + (ayatulIndex + 1) +
+      " of " + ayatulParts.length;
+  }
+}
+
+function speakAyatulPhrase() {
+  if (!("speechSynthesis" in window)) {
+    alert("Speech is not supported by this browser.");
+    return;
+  }
+
+  if (ayatulIndex >= ayatulParts.length) {
+    ayatulPlaying = false;
+    ayatulPaused = false;
+    updateAyatulStatus("Completed");
+    return;
+  }
+
+  const token = ayatulToken;
+  const text = ayatulParts[ayatulIndex];
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ar-SA";
+  utterance.rate = 0.50;
+  utterance.pitch = 1;
+
+  updateAyatulStatus("Playing");
+
+  utterance.onend = function () {
+    if (token !== ayatulToken || !ayatulPlaying) return;
+
+    ayatulTimer = setTimeout(function () {
+      if (token !== ayatulToken || !ayatulPlaying) return;
+
+      ayatulIndex++;
+
+      if (ayatulIndex < ayatulParts.length) {
+        speakAyatulPhrase();
+      } else {
+        ayatulPlaying = false;
+        ayatulPaused = false;
+        updateAyatulStatus("Completed");
+      }
+    }, 1000);
+  };
+
+  utterance.onerror = function (event) {
+    if (token !== ayatulToken) return;
+
+    ayatulPlaying = false;
+    ayatulPaused = false;
+    updateAyatulStatus("Audio error");
+
+    console.log("Ayatul Kursi speech error:", event.error);
+  };
+
+  window.speechSynthesis.speak(utterance);
+}
+
+function playAyatulKursi() {
+  if (!("speechSynthesis" in window)) {
+    alert("Audio is not supported by this browser.");
+    return;
+  }
+
+  if (ayatulPaused) {
+    window.speechSynthesis.resume();
+    ayatulPaused = false;
+    ayatulPlaying = true;
+    updateAyatulStatus("Playing");
+    return;
+  }
+
+  if (ayatulPlaying) return;
+
+  if (!ayatulParts.length || ayatulIndex >= ayatulParts.length) {
+    ayatulParts = [...AYATUL_KURSI_PHRASES];
+    ayatulIndex = 0;
+  }
+
+  ayatulToken++;
+  ayatulPlaying = true;
+  ayatulPaused = false;
+
+  speakAyatulPhrase();
+}
+
+function pauseAyatulKursi() {
+  if (!("speechSynthesis" in window)) return;
+  if (!ayatulPlaying) return;
+
+  window.speechSynthesis.pause();
+  ayatulPaused = true;
+  ayatulPlaying = false;
+  updateAyatulStatus("Paused");
+}
+
+function repeatAyatulPhrase() {
+  if (!ayatulParts.length) {
+    ayatulParts = [...AYATUL_KURSI_PHRASES];
+    ayatulIndex = 0;
+  }
+
+  ayatulToken++;
+
+  if (ayatulTimer) {
+    clearTimeout(ayatulTimer);
+    ayatulTimer = null;
+  }
+
+  ayatulPlaying = true;
+  ayatulPaused = false;
+
+  speakAyatulPhrase();
+}
+
+function nextAyatulPhrase() {
+  ayatulToken++;
+
+  if (ayatulTimer) {
+    clearTimeout(ayatulTimer);
+    ayatulTimer = null;
+  }
+
+  if (!ayatulParts.length) {
+    ayatulParts = [...AYATUL_KURSI_PHRASES];
+    ayatulIndex = 0;
+  } else {
+    ayatulIndex++;
+  }
+
+  if (ayatulIndex >= ayatulParts.length) {
+    ayatulPlaying = false;
+    ayatulPaused = false;
+    updateAyatulStatus("Completed");
+    window.speechSynthesis.cancel();
+    return;
+  }
+
+  ayatulPlaying = true;
+  ayatulPaused = false;
+
+  speakAyatulPhrase();
+}
+
+/* Regular audio for the other lessons */
 
 function speak(text, voiceLang) {
   if (!("speechSynthesis" in window)) {
@@ -171,19 +367,94 @@ function speak(text, voiceLang) {
     return;
   }
 
+  stopAyatulKursi();
+
   window.speechSynthesis.cancel();
 
-  const utterance = new SpeechSynthesisUtterance(String(text));
+  const utterance = new SpeechSynthesisUtterance(
+    String(text).replace(/۝/g, "،")
+  );
+
   utterance.lang = voiceLang || "ar-SA";
-  utterance.rate = 0.65;
+  utterance.rate = 0.55;
   utterance.pitch = 1;
 
-  utterance.onerror = event => {
+  utterance.onerror = function (event) {
     console.log("Speech error:", event.error);
   };
 
   window.speechSynthesis.speak(utterance);
 }
+
+/* Add phrase controls automatically to the Ayatul Kursi card */
+
+function installAyatulKursiControls() {
+  const listenButton = document.getElementById("s4");
+
+  if (!listenButton) return;
+
+  listenButton.onclick = function () {
+    ayatulParts = [...AYATUL_KURSI_PHRASES];
+    ayatulIndex = 0;
+    stopAyatulKursi();
+    playAyatulKursi();
+  };
+
+  if (document.getElementById("ayatulControls")) return;
+
+  listenButton.insertAdjacentHTML("afterend", `
+    <div id="ayatulControls" class="card" style="margin-top:12px;">
+      <h3>Ayatul Kursiyyu — Phrase-by-Phrase Learning</h3>
+
+      <p id="ayatulStatus" class="meaning">
+        Ready — Phrase 1 of 9
+      </p>
+
+      <div class="btn-row">
+        <button class="btn" type="button"
+          onclick="playAyatulKursi()">Play / Resume</button>
+
+        <button class="btn" type="button"
+          onclick="pauseAyatulKursi()">Pause</button>
+
+        <button class="btn" type="button"
+          onclick="repeatAyatulPhrase()">Repeat</button>
+
+        <button class="btn" type="button"
+          onclick="nextAyatulPhrase()">Next Phrase</button>
+
+        <button class="btn" type="button"
+          onclick="stopAyatulKursi()">Stop</button>
+      </div>
+
+      <p class="meaning">
+        Listen carefully to each phrase before moving to the next one.
+      </p>
+    </div>
+  `);
+}
+
+/* Watch the Azkar section because its cards are rendered dynamically */
+
+function watchAyatulKursiSection() {
+  const azkarBox = document.getElementById("azkar");
+
+  if (!azkarBox || !("MutationObserver" in window)) return;
+
+  const observer = new MutationObserver(function () {
+    installAyatulKursiControls();
+  });
+
+  observer.observe(azkarBox, {
+    childList: true,
+    subtree: true
+  });
+
+  installAyatulKursiControls();
+}
+
+watchAyatulKursiSection();
+
 
 /* ---------- ARABIC LETTERS ---------- */
 
