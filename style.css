@@ -977,3 +977,100 @@ input, select, textarea { min-height: 44px; }
   .btn-row > .btn { flex-basis: 100%; }
   .quran-actions .btn { flex-basis: calc(50% - 8px); }
 }
+
+
+/* ---------- RELEASE REFINEMENTS: NAV, SEARCH, LETTERS ---------- */
+
+/* Keep the original Qur'an search field + surah selector layout. */
+.quran-card > label {
+  display: block;
+  margin: 8px 0 4px;
+  font-weight: 600;
+}
+.quran-card #quranSearch,
+.quran-card #quranSurah {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  margin: 5px 0 12px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+}
+
+/* Navigation should respond immediately to a finger swipe.
+   Do not animate horizontal tab-strip movement. */
+.tabs {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs .tab {
+  flex-shrink: 0;
+  scroll-snap-align: none;
+  transition: background-color .12s ease, border-color .12s ease;
+}
+
+/* Tighter Arabic-letter lesson composition without changing text sizes. */
+#letters > .card:first-child {
+  margin-bottom: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+#letters > .card:first-child p {
+  margin-bottom: 2px;
+}
+#letters .letter-detail {
+  padding-top: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 12px;
+}
+#letters .letter-detail .big-letter {
+  padding: 3px 8px;
+  margin: 0;
+}
+#letters .letter-detail .emoji {
+  margin: 2px 0 5px;
+}
+#letters .letter-detail .arabic {
+  margin: 9px 0;
+}
+#letters .letter-detail .translit {
+  margin: 7px 0;
+}
+#letters .letter-detail .btn-row {
+  margin-top: 9px;
+  gap: 9px;
+}
+#letters .letter-grid {
+  margin-top: 10px;
+  margin-bottom: 14px;
+  gap: 8px;
+}
+
+/* Keep the brand footer neat and prevent it dominating short screens. */
+footer {
+  padding: 13px 10px 16px;
+}
+footer .contact {
+  margin: 7px 0;
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    gap: 7px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .tab {
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+  #letters .letter-tile {
+    min-height: 50px;
+  }
+}
