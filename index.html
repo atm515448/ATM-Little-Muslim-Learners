@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#263b91" />
 
-  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar and Asma'ul Husna in English, Hausa and Arabic." />
+  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
 
   <title>ATM Little Muslim Learners | ATM Digital Solutions & Services</title>
 
@@ -100,6 +100,11 @@
             <strong>Daily Azkar</strong>
           </button>
 
+          <button class="lesson-card" data-open-tab="tasbih">
+            <span>📿</span>
+            <strong>Daily Tasbih</strong>
+          </button>
+
           <button class="lesson-card" data-open-tab="asmaulHusna">
             <span>🌟</span>
             <strong>Asma'ul Husna</strong>
@@ -141,6 +146,69 @@
 
     <!-- AZKAR PAGE -->
     <section id="azkar" class="panel"></section>
+
+    <!-- DAILY TASBIH PAGE -->
+    <section id="tasbih" class="panel">
+
+      <div class="card">
+        <h2>📿 Daily Tasbih</h2>
+        <p>Remember Allah and keep track of your daily dhikr.</p>
+        <p>Ka yawaita ambaton Allah.</p>
+      </div>
+
+      <div class="card">
+        <h3>سُبْحَانَ اللَّهِ</h3>
+        <p class="translit">SubhanAllah</p>
+        <p class="meaning">Glory be to Allah.</p>
+        <p id="countSubhan" class="counter">0 / 33</p>
+        <button class="btn" type="button" onclick="countTasbih('subhan')">
+          Count +1
+        </button>
+        <button class="btn alt" type="button" onclick="resetTasbih('subhan')">
+          Reset
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>الْحَمْدُ لِلَّهِ</h3>
+        <p class="translit">Alhamdulillah</p>
+        <p class="meaning">All praise belongs to Allah.</p>
+        <p id="countAlham" class="counter">0 / 33</p>
+        <button class="btn" type="button" onclick="countTasbih('alham')">
+          Count +1
+        </button>
+        <button class="btn alt" type="button" onclick="resetTasbih('alham')">
+          Reset
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>اللَّهُ أَكْبَرُ</h3>
+        <p class="translit">Allahu Akbar</p>
+        <p class="meaning">Allah is the Greatest.</p>
+        <p id="countAkbar" class="counter">0 / 34</p>
+        <button class="btn" type="button" onclick="countTasbih('akbar')">
+          Count +1
+        </button>
+        <button class="btn alt" type="button" onclick="resetTasbih('akbar')">
+          Reset
+        </button>
+      </div>
+
+      <div class="card">
+        <h3>أَسْتَغْفِرُ اللَّهَ</h3>
+        <p class="translit">Astaghfirullah</p>
+        <p class="meaning">I seek forgiveness from Allah.</p>
+        <p id="countAstaghfir" class="counter">0 / 100</p>
+        <button class="btn" type="button" onclick="countTasbih('astaghfir')">
+          Count +1
+        </button>
+        <button class="btn alt" type="button" onclick="resetTasbih('astaghfir')">
+          Reset
+        </button>
+      </div>
+
+    </section>
 
     <!-- QUIZ PAGE -->
     <section id="quiz" class="panel"></section>
@@ -279,6 +347,72 @@
 
   <!-- ATM FIREBASE CONNECTION -->
   <script src="firebase.js"></script>
+
+  <!-- DAILY TASBIH COUNTER -->
+  <script>
+    (function () {
+      "use strict";
+
+      const targets = {
+        subhan: 33,
+        alham: 33,
+        akbar: 34,
+        astaghfir: 100
+      };
+
+      const storageKey = "lml_tasbih_counts";
+
+      let counts = {};
+
+      try {
+        counts = JSON.parse(localStorage.getItem(storageKey)) || {};
+      } catch (error) {
+        counts = {};
+      }
+
+      function saveCounts() {
+        localStorage.setItem(storageKey, JSON.stringify(counts));
+      }
+
+      function updateDisplay(name) {
+        const elementIds = {
+          subhan: "countSubhan",
+          alham: "countAlham",
+          akbar: "countAkbar",
+          astaghfir: "countAstaghfir"
+        };
+
+        const element = document.getElementById(elementIds[name]);
+
+        if (!element) return;
+
+        const count = Number(counts[name]) || 0;
+        element.textContent = count + " / " + targets[name];
+      }
+
+      window.countTasbih = function (name) {
+        if (!(name in targets)) return;
+
+        counts[name] = (Number(counts[name]) || 0) + 1;
+
+        saveCounts();
+        updateDisplay(name);
+      };
+
+      window.resetTasbih = function (name) {
+        if (!(name in targets)) return;
+
+        counts[name] = 0;
+
+        saveCounts();
+        updateDisplay(name);
+      };
+
+      Object.keys(targets).forEach(function (name) {
+        updateDisplay(name);
+      });
+    })();
+  </script>
 
 </body>
   </html>
