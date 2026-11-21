@@ -45,7 +45,7 @@
   }
   async function loadSurah(id, forceOnline) {
     if (!forceOnline) {
-      try { const saved = await storedGet(id); if (saved && saved.arabic.length) return saved; } catch (_) {}
+      try { const saved = await storedGet(id); if (saved && Array.isArray(saved.verses) && saved.verses.length) return saved; } catch (_) {}
     }
     const [ha, en] = await Promise.all([fetchTranslation(HAUSA_KEY, id), fetchTranslation(ENGLISH_KEY, id)]);
     if (ha.length !== en.length) throw new Error("Verse count mismatch in surah " + id + ". Data was not saved.");

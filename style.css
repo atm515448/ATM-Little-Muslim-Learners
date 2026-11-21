@@ -878,3 +878,102 @@ html[data-text-size="large"] .arabic {
   }
    }
    
+
+/* =====================================================
+   RELEASE POLISH — clearer navigation, cards and scrolling
+   Applies consistently to every learning page.
+===================================================== */
+:root { --content-width: 820px; }
+html { scroll-padding-top: 76px; }
+body { overflow-x: hidden; }
+main { max-width: var(--content-width); padding: 16px 14px 88px; }
+.hero { padding: 10px 12px 11px; border-radius: 0 0 20px 20px; }
+.hero .logo { width: 52px; height: 52px; margin: 3px auto 6px; }
+.hero h1 { font-size: clamp(1.05rem, 4vw, 1.35rem); }
+.stars { margin-top: 3px; padding: 4px 11px; }
+
+/* Compact, one-row navigation: swipe sideways on narrow screens. */
+.tabs {
+  position: sticky; top: 0; z-index: 30;
+  justify-content: flex-start; flex-wrap: nowrap;
+  gap: 8px; padding: 8px max(12px, calc((100vw - var(--content-width))/2));
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  background: rgba(242,246,255,.97);
+  box-shadow: 0 3px 12px rgba(25,40,90,.08);
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: 0 0 auto; min-height: 40px; padding: 8px 14px; white-space: nowrap; }
+.panel { scroll-margin-top: 72px; }
+.panel.active { min-height: 45vh; }
+.card { margin-bottom: 15px; padding: clamp(14px, 3vw, 19px); border-radius: 17px; }
+.card h2 { font-size: clamp(1.08rem, 3.8vw, 1.25rem); }
+.card p { line-height: 1.65; }
+.lesson-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 11px; }
+.lesson-card { min-height: 100px; padding: 14px 9px; border-radius: 16px; }
+.lesson-card span { font-size: 1.65rem; }
+.lesson-card strong { font-size: .9rem; }
+button.btn, a.btn { min-height: 42px; padding: 10px 15px; }
+button, a { touch-action: manipulation; }
+input, select, textarea { max-width: 100%; }
+
+/* Every dynamically generated lesson page gets consistent spacing. */
+.panel > .card:first-child { margin-top: 2px; }
+.panel .btn-row { row-gap: 9px; }
+.panel img { max-width: 100%; height: auto; }
+.quran-card input, .quran-card select { min-height: 46px; margin: 5px 0 12px; }
+.quran-actions { gap: 9px; }
+.quran-actions .btn { flex: 1 1 145px; }
+.quran-verse { padding: 18px 13px; margin: 13px 0; }
+.quran-arabic { font-size: clamp(1.75rem, 6vw, 2.15rem); line-height: 2.15; overflow-wrap: anywhere; }
+.quran-meaning { font-size: .98rem; line-height: 1.85; }
+
+/* Floating return-to-top control appears only after scrolling. */
+#lmlBackToTop {
+  position: fixed; right: 16px; bottom: 18px; z-index: 50;
+  width: 46px; height: 46px; border: 0; border-radius: 50%;
+  color: #fff; background: var(--navy); box-shadow: 0 5px 18px rgba(0,0,0,.22);
+  font-size: 21px; font-weight: 700; cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s;
+}
+#lmlBackToTop.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+footer { margin-top: 10px; padding: 20px 12px 26px; text-align: center; }
+
+@media (min-width: 650px) {
+  .lesson-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .tabs { justify-content: center; }
+}
+@media (max-width: 480px) {
+  main { padding: 12px 10px 82px; }
+  .hero { padding-top: 8px; }
+  .tabs { gap: 6px; padding: 7px 9px; }
+  .tab { min-height: 39px; padding: 7px 11px; font-size: .82rem; }
+  .lesson-card { min-height: 88px; }
+  .quran-actions .btn { flex: 1 1 calc(50% - 8px); }
+  #lmlBackToTop { right: 12px; bottom: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  #lmlBackToTop { transition: none; }
+}
+
+
+/* FINAL TOUCH TARGET & NAVIGATION REFINEMENTS
+   Increase control hit areas only; keep all text sizes and text spacing unchanged. */
+button, a.btn, select, input[type="button"], input[type="submit"] {
+  touch-action: manipulation;
+}
+button.btn, a.btn, .panel button:not(.letter-tile):not(.option):not(.lang),
+.panel a.btn { min-height: 48px; }
+.tab { min-height: 44px; }
+.lesson-card { min-height: 96px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.btn-row > .btn { flex: 1 1 140px; }
+input, select, textarea { min-height: 44px; }
+.panel :is(h2, h3, .card) { scroll-margin-top: 82px; }
+#lmlBackToTop { min-width: 48px; min-height: 48px; }
+@media (max-width: 480px) {
+  .btn-row > .btn { flex-basis: 100%; }
+  .quran-actions .btn { flex-basis: calc(50% - 8px); }
+}
