@@ -206,7 +206,61 @@ function getHisnulMuslimProgress() {
     readingsAdded: HISNUL_MUSLIM_CHAPTERS.reduce(
       (total, chapter) => total + chapter.readings.length,
       0
-    )
-  };
-           }
+
+  },
+  {
+    number: 2,
+
+    title: {
+      en: "When putting on clothes",
+      ha: "Addu'a lokacin sanya tufafi",
+      ar: "دعاء لبس الثوب"
+    },
+
+    readingCount: 1,
+
+    readings: [
+      {
+        id: 5,
+
+        title: {
+          en: "Dua when wearing clothes",
+          ha: "Addu'a yayin sanya tufafi",
+          ar: "دعاء لبس الثوب"
+        },
+
+        arabic:
+          "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا (الثَّوْبَ) وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+
+        transliteration:
+          "Al-hamdu lillahil-ladhi kasani hadha (ath-thawba) warazaqanihi min ghayri hawlin minni wala quwwah.",
+
+        meaning: {
+          en: "Praise belongs to Allah, who clothed me with this garment and provided it for me without any strength or ability of my own.",
+
+          ha: "Godiya ta tabbata ga Allah, Wanda Ya tufatar da ni wannan tufa, kuma Ya azurta ni da ita ba tare da wani iko ko karfi daga gare ni ba.",
+
+          ar: "الثناء لله الذي أنعم عليّ بهذا اللباس ورزقنيه من غير قدرة أو قوة مني."
+        },
+
+        count: 1,
+
+        reference: [
+          "Sunan Abi Dawud 4023"
+        ],
+
+        grading: "Hasan",
+
+        notes: {
+          en: "Say this supplication when putting on clothes.",
+
+          ha: "Ka karanta wannan addu'a lokacin da kake sanya tufafi.",
+
+          ar: "يقال هذا الدعاء عند لبس الثوب."
+        }
+      }
+    ]
+  }
+];
+
          
