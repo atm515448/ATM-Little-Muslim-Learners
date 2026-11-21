@@ -12,6 +12,7 @@
   <link rel="icon" type="image/png" href="icon-192.png" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="quran-reader.css" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNR4SP2C40"></script>
@@ -49,6 +50,7 @@
   <!-- SIMPLE MAIN NAVIGATION -->
   <nav class="tabs" aria-label="Main navigation">
     <button class="tab active" data-tab="home">🏠 Home</button>
+    <button class="tab" data-tab="quran">📖 Qur’an</button>
     <button class="tab" data-tab="settings">⚙️ Settings</button>
     <button class="tab" data-tab="about">ℹ️ About</button>
   </nav>
@@ -73,6 +75,7 @@
         <p>Choose a lesson to start learning.</p>
 
         <div class="lesson-grid">
+          <button class="lesson-card" data-open-tab="quran"><span>📖</span><strong>Complete Qur’an</strong></button>
 
           <button class="lesson-card" data-open-tab="letters">
             <span>🔤</span>
@@ -399,6 +402,36 @@
 
     </section>
 
+
+    <!-- COMPLETE QURAN READER -->
+    <section id="quran" class="panel">
+      <div class="card quran-card">
+        <h2>📖 Complete Qur’an</h2>
+        <p>Read the Qur’an in Arabic with Hausa and English meanings. Select a surah to begin.</p>
+        <label for="quranSearch">Search surah</label>
+        <input id="quranSearch" type="search" placeholder="Search by surah name or number" autocomplete="off">
+        <label for="quranSurah">Choose surah</label>
+        <select id="quranSurah"></select>
+        <div class="quran-actions">
+          <button class="btn" id="quranLoad">Open surah</button>
+          <button class="btn alt" id="quranBookmark">☆ Bookmark</button>
+          <button class="btn alt" id="quranResume">Continue reading</button>
+        </div>
+        <div class="quran-actions">
+          <button class="btn alt" id="quranDownloadCurrent">Save this surah offline</button>
+          <button class="btn alt" id="quranDownloadAll">Download all Qur’an text</button>
+        </div>
+        <p id="quranStatus" class="quran-status" role="status" aria-live="polite">Connect to the internet to load a surah for the first time.</p>
+        <div id="quranAudioBox" class="quran-audio" hidden>
+          <strong>🎧 Saad Al-Ghamdi</strong>
+          <audio id="quranAudio" controls preload="none"></audio>
+          <small>Audio is streamed from MP3Quran. Internet is required for streaming.</small>
+        </div>
+        <div id="quranVerses" class="quran-verses"></div>
+        <p class="quran-credit">Arabic and translations: QuranEnc.com. Hausa: Abu Bakr Gummi. English: Saheeh International. Translation versions are displayed with the source data. Audio catalogue: MP3Quran.net. Qur’an translations are meanings and interpretations, not a replacement for the Arabic text.</p>
+      </div>
+    </section>
+
   </main>
 
   <!-- SMALL FOOTER -->
@@ -411,6 +444,7 @@
   <!-- APPLICATION JAVASCRIPT -->
   <script src="data.js"></script>
   <script src="script.js"></script>
+  <script src="quran-reader.js"></script>
   <script src="harakat-practice.js"></script>
   <script src="asmaul-husna.js"></script>
 

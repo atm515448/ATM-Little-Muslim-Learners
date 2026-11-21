@@ -1,0 +1,14 @@
+/* ATM Little Muslim Learners — Qur’an reader */
+.quran-card input,.quran-card select{width:100%;padding:12px;margin:7px 0 14px;border:1px solid var(--border,#ccc);border-radius:10px;font:inherit;background:var(--card,#fff);color:inherit}
+.quran-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.quran-status{padding:10px;border-radius:9px;background:rgba(38,59,145,.08)}
+.quran-audio{margin:16px 0;padding:12px;border:1px solid var(--border,#ccc);border-radius:10px}
+.quran-audio audio{display:block;width:100%;margin:10px 0}
+.quran-verses{margin-top:18px}
+.quran-verse{padding:16px 10px;margin:12px 0;border-bottom:1px solid var(--border,#ddd);border-radius:8px}
+.quran-verse-number{font-weight:700;display:inline-block;margin-bottom:8px}
+.quran-arabic{font-family:"Noto Naskh Arabic","Amiri",serif;font-size:1.9rem;line-height:2.1;text-align:right;direction:rtl;margin:8px 0 14px}
+.quran-meaning{line-height:1.8;margin:8px 0}
+.quran-meaning strong{display:block;font-size:.88rem;opacity:.75}
+.quran-credit{font-size:.8rem;opacity:.75;margin-top:22px;line-height:1.6}
+@media(max-width:480px){.quran-actions .btn{flex:1 1 100%}.quran-arabic{font-size:1.65rem}}
