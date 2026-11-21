@@ -6,15 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#263b91" />
 
-  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Hisnul Muslim, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
+  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Hadith, Hisnul Muslim, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
 
   <title>ATM Little Muslim Learners | ATM Digital Solutions & Services</title>
-
   <link rel="icon" type="image/png" href="icon-192.png" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Google Analytics: KEEP EXISTING ID -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNR4SP2C40"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -106,19 +105,28 @@
             <strong>Hisnul Muslim</strong>
           </button>
 
+          <!-- DAILY TASBIH -->
           <button class="lesson-card" data-open-tab="tasbih">
             <span>📿</span>
             <strong>Daily Tasbih</strong>
           </button>
 
+          <!-- ASMAUL HUSNA -->
           <button class="lesson-card" data-open-tab="asmaulHusna">
             <span>🌟</span>
             <strong>Asma'ul Husna</strong>
           </button>
 
+          <!-- QUIZ -->
           <button class="lesson-card" data-open-tab="quiz">
             <span>🏆</span>
             <strong>Quiz Time</strong>
+          </button>
+
+          <!-- HADITH LEARNING -->
+          <button class="lesson-card" data-open-tab="hadith">
+            <span>📜</span>
+            <strong>Hadith Learning</strong>
           </button>
 
         </div>
@@ -156,6 +164,9 @@
     <!-- HISNUL MUSLIM PAGE -->
     <section id="hisnulMuslim" class="panel"></section>
 
+    <!-- HADITH LEARNING PAGE -->
+    <section id="hadith" class="panel"></section>
+
     <!-- DAILY TASBIH PAGE -->
     <section id="tasbih" class="panel">
 
@@ -183,6 +194,7 @@
           type="button" onclick="countTasbih('subhan')">
           👆 TAP TO COUNT
         </button>
+
         <button class="btn alt" type="button"
           onclick="resetTasbih('subhan')">Reset</button>
       </div>
@@ -201,6 +213,7 @@
           type="button" onclick="countTasbih('alham')">
           👆 TAP TO COUNT
         </button>
+
         <button class="btn alt" type="button"
           onclick="resetTasbih('alham')">Reset</button>
       </div>
@@ -219,6 +232,7 @@
           type="button" onclick="countTasbih('akbar')">
           👆 TAP TO COUNT
         </button>
+
         <button class="btn alt" type="button"
           onclick="resetTasbih('akbar')">Reset</button>
       </div>
@@ -237,6 +251,7 @@
           type="button" onclick="countTasbih('astaghfir')">
           👆 TAP TO COUNT
         </button>
+
         <button class="btn alt" type="button"
           onclick="resetTasbih('astaghfir')">Reset</button>
       </div>
@@ -277,7 +292,6 @@
           <button class="btn alt" id="themeLight" type="button">
             ☀️ Light Mode
           </button>
-
           <button class="btn" id="themeDark" type="button">
             🌙 Dark Mode
           </button>
@@ -403,7 +417,10 @@
   <!-- HISNUL MUSLIM APPLICATION MODULE -->
   <script src="hisnul-muslim.js"></script>
 
-  <!-- FIREBASE SDK: KEEP EXISTING VERSION -->
+  <!-- HADITH LEARNING MODULE -->
+  <script src="hadith.js"></script>
+
+  <!-- FIREBASE SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -538,5 +555,5 @@
   </script>
 
 </body>
-        </html>
-  
+            </html>
+          
