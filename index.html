@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#263b91" />
 
-  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
+  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Hisnul Muslim, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
 
   <title>ATM Little Muslim Learners | ATM Digital Solutions & Services</title>
 
@@ -100,6 +100,12 @@
             <strong>Daily Azkar</strong>
           </button>
 
+          <!-- HISNUL MUSLIM -->
+          <button class="lesson-card" data-open-tab="hisnulMuslim">
+            <span>📖</span>
+            <strong>Hisnul Muslim</strong>
+          </button>
+
           <button class="lesson-card" data-open-tab="tasbih">
             <span>📿</span>
             <strong>Daily Tasbih</strong>
@@ -147,94 +153,95 @@
     <!-- AZKAR PAGE -->
     <section id="azkar" class="panel"></section>
 
-    
-<!-- DAILY TASBIH PAGE -->
-<section id="tasbih" class="panel">
+    <!-- HISNUL MUSLIM PAGE -->
+    <section id="hisnulMuslim" class="panel"></section>
 
-  <div class="card">
-    <h2>📿 Daily Tasbih</h2>
-    <p>Remember Allah and keep track of your daily dhikr.</p>
-    <p>Ka yawaita ambaton Allah.</p>
+    <!-- DAILY TASBIH PAGE -->
+    <section id="tasbih" class="panel">
 
-    <h3>Today's Total / Jimillar yau</h3>
-    <p id="dailyTasbihTotal" class="counter">0</p>
-    <p>Dhikr counted today</p>
-  </div>
+      <div class="card">
+        <h2>📿 Daily Tasbih</h2>
+        <p>Remember Allah and keep track of your daily dhikr.</p>
+        <p>Ka yawaita ambaton Allah.</p>
 
-  <div class="card">
-    <h3>سُبْحَانَ اللَّهِ</h3>
-    <p class="translit">SubhanAllah</p>
-    <p class="meaning">Glory be to Allah.</p>
-    <p class="meaning">Tsarki ya tabbata ga Allah.</p>
+        <h3>Today's Total / Jimillar yau</h3>
+        <p id="dailyTasbihTotal" class="counter">0</p>
+        <p>Dhikr counted today</p>
+      </div>
 
-    <p id="countSubhan" class="counter">0 / 33</p>
-    <progress id="progressSubhan" value="0" max="33"
-      style="width:100%;height:14px;"></progress>
+      <div class="card">
+        <h3>سُبْحَانَ اللَّهِ</h3>
+        <p class="translit">SubhanAllah</p>
+        <p class="meaning">Glory be to Allah.</p>
+        <p class="meaning">Tsarki ya tabbata ga Allah.</p>
 
-    <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-      type="button" onclick="countTasbih('subhan')">
-      👆 TAP TO COUNT
-    </button>
-    <button class="btn alt" type="button"
-      onclick="resetTasbih('subhan')">Reset</button>
-  </div>
+        <p id="countSubhan" class="counter">0 / 33</p>
+        <progress id="progressSubhan" value="0" max="33"
+          style="width:100%;height:14px;"></progress>
 
-  <div class="card">
-    <h3>الْحَمْدُ لِلَّهِ</h3>
-    <p class="translit">Alhamdulillah</p>
-    <p class="meaning">All praise belongs to Allah.</p>
-    <p class="meaning">Dukkan yabo ya tabbata ga Allah.</p>
+        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
+          type="button" onclick="countTasbih('subhan')">
+          👆 TAP TO COUNT
+        </button>
+        <button class="btn alt" type="button"
+          onclick="resetTasbih('subhan')">Reset</button>
+      </div>
 
-    <p id="countAlham" class="counter">0 / 33</p>
-    <progress id="progressAlham" value="0" max="33"
-      style="width:100%;height:14px;"></progress>
+      <div class="card">
+        <h3>الْحَمْدُ لِلَّهِ</h3>
+        <p class="translit">Alhamdulillah</p>
+        <p class="meaning">All praise belongs to Allah.</p>
+        <p class="meaning">Dukkan yabo ya tabbata ga Allah.</p>
 
-    <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-      type="button" onclick="countTasbih('alham')">
-      👆 TAP TO COUNT
-    </button>
-    <button class="btn alt" type="button"
-      onclick="resetTasbih('alham')">Reset</button>
-  </div>
+        <p id="countAlham" class="counter">0 / 33</p>
+        <progress id="progressAlham" value="0" max="33"
+          style="width:100%;height:14px;"></progress>
 
-  <div class="card">
-    <h3>اللَّهُ أَكْبَرُ</h3>
-    <p class="translit">Allahu Akbar</p>
-    <p class="meaning">Allah is the Greatest.</p>
-    <p class="meaning">Allah ne Mafi girma.</p>
+        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
+          type="button" onclick="countTasbih('alham')">
+          👆 TAP TO COUNT
+        </button>
+        <button class="btn alt" type="button"
+          onclick="resetTasbih('alham')">Reset</button>
+      </div>
 
-    <p id="countAkbar" class="counter">0 / 34</p>
-    <progress id="progressAkbar" value="0" max="34"
-      style="width:100%;height:14px;"></progress>
+      <div class="card">
+        <h3>اللَّهُ أَكْبَرُ</h3>
+        <p class="translit">Allahu Akbar</p>
+        <p class="meaning">Allah is the Greatest.</p>
+        <p class="meaning">Allah ne Mafi girma.</p>
 
-    <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-      type="button" onclick="countTasbih('akbar')">
-      👆 TAP TO COUNT
-    </button>
-    <button class="btn alt" type="button"
-      onclick="resetTasbih('akbar')">Reset</button>
-  </div>
+        <p id="countAkbar" class="counter">0 / 34</p>
+        <progress id="progressAkbar" value="0" max="34"
+          style="width:100%;height:14px;"></progress>
 
-  <div class="card">
-    <h3>أَسْتَغْفِرُ اللَّهَ</h3>
-    <p class="translit">Astaghfirullah</p>
-    <p class="meaning">I seek forgiveness from Allah.</p>
-    <p class="meaning">Ina neman gafarar Allah.</p>
+        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
+          type="button" onclick="countTasbih('akbar')">
+          👆 TAP TO COUNT
+        </button>
+        <button class="btn alt" type="button"
+          onclick="resetTasbih('akbar')">Reset</button>
+      </div>
 
-    <p id="countAstaghfir" class="counter">0 / 100</p>
-    <progress id="progressAstaghfir" value="0" max="100"
-      style="width:100%;height:14px;"></progress>
+      <div class="card">
+        <h3>أَسْتَغْفِرُ اللَّهَ</h3>
+        <p class="translit">Astaghfirullah</p>
+        <p class="meaning">I seek forgiveness from Allah.</p>
+        <p class="meaning">Ina neman gafarar Allah.</p>
 
-    <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-      type="button" onclick="countTasbih('astaghfir')">
-      👆 TAP TO COUNT
-    </button>
-    <button class="btn alt" type="button"
-      onclick="resetTasbih('astaghfir')">Reset</button>
-  </div>
+        <p id="countAstaghfir" class="counter">0 / 100</p>
+        <progress id="progressAstaghfir" value="0" max="100"
+          style="width:100%;height:14px;"></progress>
 
-</section>
+        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
+          type="button" onclick="countTasbih('astaghfir')">
+          👆 TAP TO COUNT
+        </button>
+        <button class="btn alt" type="button"
+          onclick="resetTasbih('astaghfir')">Reset</button>
+      </div>
 
+    </section>
 
     <!-- QUIZ PAGE -->
     <section id="quiz" class="panel"></section>
@@ -349,6 +356,33 @@
         </p>
       </div>
 
+      <div class="card">
+        <h2>📚 Hisnul Muslim Data Credits</h2>
+        <p>
+          Hisnul Muslim content is being integrated using
+          OpenDua dataset v0.0.4.
+        </p>
+        <p>
+          Based on Hisn al-Muslim by Sa'id ibn Ali ibn Wahf al-Qahtani.
+        </p>
+        <p>
+          OpenDua dataset and recitation attribution:
+          Ihsan Labs at the Human Development Fund.
+        </p>
+        <p>
+          Licensed under Creative Commons Attribution 4.0 (CC BY 4.0).
+        </p>
+        <p>
+          <a href="https://opendua.org/" target="_blank" rel="noopener">
+            OpenDua Website
+          </a>
+          |
+          <a href="https://opendua.org/methodology" target="_blank" rel="noopener">
+            Methodology
+          </a>
+        </p>
+      </div>
+
     </section>
 
   </main>
@@ -366,6 +400,9 @@
   <script src="harakat-practice.js"></script>
   <script src="asmaul-husna.js"></script>
 
+  <!-- HISNUL MUSLIM APPLICATION MODULE -->
+  <script src="hisnul-muslim.js"></script>
+
   <!-- FIREBASE SDK: KEEP EXISTING VERSION -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
@@ -374,120 +411,132 @@
   <!-- ATM FIREBASE CONNECTION -->
   <script src="firebase.js"></script>
 
-  
-<!-- DAILY TASBIH COUNTER -->
-<script>
-(function () {
-  "use strict";
+  <!-- DAILY TASBIH COUNTER -->
+  <script>
+  (function () {
+    "use strict";
 
-  const targets = {
-    subhan: 33,
-    alham: 33,
-    akbar: 34,
-    astaghfir: 100
-  };
+    const targets = {
+      subhan: 33,
+      alham: 33,
+      akbar: 34,
+      astaghfir: 100
+    };
 
-  const elementIds = {
-    subhan: "countSubhan",
-    alham: "countAlham",
-    akbar: "countAkbar",
-    astaghfir: "countAstaghfir"
-  };
+    const elementIds = {
+      subhan: "countSubhan",
+      alham: "countAlham",
+      akbar: "countAkbar",
+      astaghfir: "countAstaghfir"
+    };
 
-  const progressIds = {
-    subhan: "progressSubhan",
-    alham: "progressAlham",
-    akbar: "progressAkbar",
-    astaghfir: "progressAstaghfir"
-  };
+    const progressIds = {
+      subhan: "progressSubhan",
+      alham: "progressAlham",
+      akbar: "progressAkbar",
+      astaghfir: "progressAstaghfir"
+    };
 
-  const storageKey = "lml_tasbih_counts";
-  const dailyKey = "lml_tasbih_daily";
+    const storageKey = "lml_tasbih_counts";
+    const dailyKey = "lml_tasbih_daily";
 
-  let counts = {};
-  let daily = {};
+    let counts = {};
+    let daily = {};
 
-  try {
-    counts = JSON.parse(localStorage.getItem(storageKey)) || {};
-    daily = JSON.parse(localStorage.getItem(dailyKey)) || {};
-  } catch (error) {
-    counts = {};
-    daily = {};
-  }
+    try {
+      counts = JSON.parse(localStorage.getItem(storageKey)) || {};
+      daily = JSON.parse(localStorage.getItem(dailyKey)) || {};
+    } catch (error) {
+      counts = {};
+      daily = {};
+    }
 
-  const today = new Date().toLocaleDateString("en-CA");
+    const today = new Date().toLocaleDateString("en-CA");
 
-  if (daily.date !== today) {
-    daily = {
-      date: today,
-      counts: {
+    if (daily.date !== today) {
+      daily = {
+        date: today,
+        counts: {
+          subhan: 0,
+          alham: 0,
+          akbar: 0,
+          astaghfir: 0
+        }
+      };
+    }
+
+    if (!daily.counts) {
+      daily.counts = {
         subhan: 0,
         alham: 0,
         akbar: 0,
         astaghfir: 0
+      };
+    }
+
+    function save() {
+      localStorage.setItem(storageKey, JSON.stringify(counts));
+      localStorage.setItem(dailyKey, JSON.stringify(daily));
+    }
+
+    function updateDisplay(name) {
+      const count = Number(counts[name]) || 0;
+      const countElement = document.getElementById(elementIds[name]);
+      const progressElement = document.getElementById(progressIds[name]);
+
+      if (countElement) {
+        countElement.textContent = count + " / " + targets[name];
+      }
+
+      if (progressElement) {
+        progressElement.value = Math.min(count, targets[name]);
+      }
+
+      updateDailyTotal();
+    }
+
+    function updateDailyTotal() {
+      const totalElement = document.getElementById("dailyTasbihTotal");
+
+      if (!totalElement) return;
+
+      const total = Object.values(daily.counts)
+        .reduce((sum, value) => sum + (Number(value) || 0), 0);
+
+      totalElement.textContent = total;
+    }
+
+    window.countTasbih = function (name) {
+      if (!(name in targets)) return;
+
+      counts[name] = (Number(counts[name]) || 0) + 1;
+      daily.counts[name] = (Number(daily.counts[name]) || 0) + 1;
+
+      save();
+      updateDisplay(name);
+
+      if ("vibrate" in navigator) {
+        navigator.vibrate(30);
       }
     };
-  }
 
-  function save() {
-    localStorage.setItem(storageKey, JSON.stringify(counts));
-    localStorage.setItem(dailyKey, JSON.stringify(daily));
-  }
+    window.resetTasbih = function (name) {
+      if (!(name in targets)) return;
 
-  function updateDisplay(name) {
-    const count = Number(counts[name]) || 0;
-    const countElement = document.getElementById(elementIds[name]);
-    const progressElement = document.getElementById(progressIds[name]);
+      counts[name] = 0;
+      daily.counts[name] = 0;
 
-    if (countElement) {
-      countElement.textContent = count + " / " + targets[name];
-    }
+      save();
+      updateDisplay(name);
+    };
 
-    if (progressElement) {
-      progressElement.value = Math.min(count, targets[name]);
-    }
-
+    Object.keys(targets).forEach(updateDisplay);
     updateDailyTotal();
-  }
-
-  function updateDailyTotal() {
-    const totalElement = document.getElementById("dailyTasbihTotal");
-
-    if (!totalElement) return;
-
-    const total = Object.values(daily.counts)
-      .reduce((sum, value) => sum + (Number(value) || 0), 0);
-
-    totalElement.textContent = total;
-  }
-
-  window.countTasbih = function (name) {
-    if (!(name in targets)) return;
-
-    counts[name] = (Number(counts[name]) || 0) + 1;
-    daily.counts[name] = (Number(daily.counts[name]) || 0) + 1;
 
     save();
-    updateDisplay(name);
+  })();
+  </script>
 
-    if ("vibrate" in navigator) {
-      navigator.vibrate(30);
-    }
-  };
-
-  window.resetTasbih = function (name) {
-    if (!(name in targets)) return;
-
-    counts[name] = 0;
-    daily.counts[name] = 0;
-
-    save();
-    updateDisplay(name);
-  };
-
-  Object.keys(targets).forEach(updateDisplay);
-  updateDailyTotal();
-
-  save();
-})();
-</script>
+</body>
+        </html>
+  
