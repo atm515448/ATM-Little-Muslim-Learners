@@ -1,0 +1,70 @@
+
+/* ATM Little Muslim Learners
+   Hadith Learning Module
+   Imam An-Nawawi's Forty Hadith
+*/
+
+"use strict";
+
+(function () {
+  const panel = document.getElementById("hadith");
+  if (!panel) return;
+
+  const hadith = [
+    {
+      number: 1,
+      title: "Actions Are Judged by Intentions",
+      narrator: "Umar ibn Al-Khattab (RA)",
+      arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى",
+      transliteration: "Innamal a'malu binniyat, wa innama likullimri'in ma nawa.",
+      english: "Actions are judged by intentions, and every person will have what they intended.",
+      hausa: "Ana auna ayyuka ne bisa niyya, kuma kowane mutum zai sami sakamakon abin da ya yi niyya.",
+      source: "Sahih al-Bukhari 1; Sahih Muslim 1907",
+      lesson: "Always make a sincere intention before doing good deeds."
+    }
+  ];
+
+  function render() {
+    panel.innerHTML = `
+      <div class="card">
+        <h2>📜 Hadith Learning</h2>
+        <p>Learn authentic Hadith step by step.</p>
+        <p>Mu koyi Hadisi tare.</p>
+        <p><strong>Collection:</strong> Imam An-Nawawi's Forty Hadith</p>
+        <p><strong>Collection size:</strong> 42 Hadith</p>
+      </div>
+
+      ${hadith.map(item => `
+        <article class="card">
+          <h3>Hadith ${item.number}: ${item.title}</h3>
+
+          <p><strong>Narrator:</strong> ${item.narrator}</p>
+
+          <p class="arabic" dir="rtl">${item.arabic}</p>
+
+          <p><strong>Transliteration</strong></p>
+          <p class="translit">${item.transliteration}</p>
+
+          <p><strong>English Meaning</strong></p>
+          <p class="meaning">${item.english}</p>
+
+          <p><strong>Hausa Ma'ana</strong></p>
+          <p class="meaning">${item.hausa}</p>
+
+          <p><strong>Reference:</strong> ${item.source}</p>
+
+          <div class="card">
+            <strong>💡 Lesson</strong>
+            <p>${item.lesson}</p>
+          </div>
+        </article>
+      `).join("")}
+
+      <div class="card">
+        <p>More Hadith will be added after verification.</p>
+      </div>
+    `;
+  }
+
+  render();
+})();
