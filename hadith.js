@@ -2,24 +2,29 @@
 "use strict";
 
 /* ATM Little Muslim Learners
-   Imam An-Nawawi's 42 Hadith
-   Arabic and English: hadith-api
+   Complete 42 Hadith of Imam An-Nawawi
+   Arabic and English source: fawazahmed0/hadith-api
    Audio recitation: Saad al-Ghamadi
-   Audio source: Al-Huda Media / Farhat Hashmi
+   Audio source: Farhat Hashmi / Al-Huda Media
 */
 
 (function () {
   const panel = document.getElementById("hadith");
   if (!panel) return;
 
-  const ARABIC_URL =
-    "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ara-nawawi.json";
+  const BASE =
+    "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/";
 
-  const ENGLISH_URL =
-    "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/eng-nawawi.json";
+  const SOURCES = {
+    arabic: BASE + "ara-nawawi",
+    english: BASE + "eng-nawawi"
+  };
 
   const AUDIO_BASE =
     "https://data.alhudamedia.com/Fh/Forty-Hadith-Audio/nawawi";
+
+  const AUDIO_PAGE =
+    "https://www.farhathashmi.com/hadith-section/arbain-nawawi/hadith-audios/";
 
   let hadiths = [];
   let current = 0;
@@ -31,7 +36,7 @@
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
-        "'": "&#039;"
+        "'": "&#39;"
       }[char];
     });
   }
@@ -39,6 +44,28 @@
   function audioURL(number) {
     return AUDIO_BASE +
       String(number).padStart(2, "0") + ".mp3";
+  }
+
+  async function loadEdition(url) {
+    for (const extension of [".min.json", ".json"]) {
+      try {
+        const response = await fetch(url + extension, {
+          cache: "no-cache"
+        });
+
+        if (!response.ok) continue;
+
+        const data = await response.json();
+
+        if (Array.isArray(data.hadiths)) {
+          return data.hadiths;
+        }
+      } catch (error) {
+        // Try the alternative format.
+      }
+    }
+
+    throw new Error("Unable to load Hadith edition.");
   }
 
   function getNumber(item, index) {
@@ -51,254 +78,293 @@
   }
 
   function getText(item) {
-    return item.text || item.hadith || "";
+    if (typeof item.text === "string") return item.text;
+    if (typeof item.hadith === "string") return item.hadith;
+    return "";
   }
 
   function getNarrator(text) {
-    const match = String(text).match(
-      /^Narrated\s+([^:]+):/i
-    );
-    return match ? match[1].trim() : "See the English text";
+    const clean = text.trim();
+
+    const patterns = [
+      /^On the authority of ([^,]+(?:,\s*[^,]+)?)/i,
+      /^It is narrated on the authority of ([^,]+(?:,\s*[^,]+)?)/i,
+      /^Narrated by ([^:]+):/i,
+      /^Narrated ([^:]+):/i
+    ];
+
+    for (const pattern of patterns) {
+      const match = clean.match(pattern);
+      if (match) return match[1].trim();
+    }
+
+    return "See the original narration";
+  }
+
+  function showMessage(message) {
+    panel.innerHTML = `
+      <div class="card">
+        <h2>📜 Hadith Learning</h2>
+        <p>${escapeHTML(message)}</p>
+        <button class="btn" id="retryHadith">Try Again</button>
+      </div>
+    `;
+
+    const retry = document.getElementById("retryHadith");
+
+    if (retry) {
+      retry.addEventListener("click", loadAll);
+    }
   }
 
   function render() {
     if (!hadiths.length) return;
 
-    const hadith = hadiths[current];
-    const number = hadith.number;
+    const item = hadiths[current];
 
     panel.innerHTML = `
-      <div class="hadith-container">
-
+      <div class="card">
         <h2>📜 Hadith Learning</h2>
         <p>Imam An-Nawawi's Forty Hadith</p>
-        <p>Learn the words and teachings of Prophet Muhammad ﷺ.</p>
+        <p>Hadith ${current + 1} of ${hadiths.length}</p>
 
         <input
           id="hadithSearch"
           type="search"
           placeholder="Search Hadith..."
-          style="width:100%;padding:12px;margin:10px 0;"
+          style="width:100%;padding:12px;margin:8px 0;"
         >
 
-        <label for="hadithSelect">Choose Hadith</label>
         <select
           id="hadithSelect"
-          style="width:100%;padding:12px;margin:8px 0 16px;"
+          style="width:100%;padding:12px;"
         >
-          ${hadiths.map((item, index) => `
-            <option value="${index}" ${index === current ? "selected" : ""}>
-              Hadith ${item.number}
+          ${hadiths.map((h, i) => `
+            <option value="${i}" ${i === current ? "selected" : ""}>
+              Hadith ${i + 1}
             </option>
           `).join("")}
         </select>
+      </div>
 
-        <div style="padding:15px;border-radius:12px;background:var(--card-bg,#f3f3f3);">
+      <div class="card">
+        <h3>Arabic / Larabci</h3>
 
-          <h3>Hadith ${number} of 42</h3>
+        <p
+          class="arabic"
+          dir="rtl"
+          style="font-size:27px;line-height:2.2;text-align:right;"
+        >
+          ${escapeHTML(item.arabic)}
+        </p>
 
-          <h4>Arabic / Larabci</h4>
-          <div
-            dir="rtl"
-            lang="ar"
-            style="font-size:25px;line-height:2.1;text-align:right;"
-          >${escapeHTML(hadith.arabic)}</div>
+        <hr>
 
-          <hr>
+        <h3>English Translation</h3>
+        <p class="meaning">${escapeHTML(item.english)}</p>
 
-          <h4>English Translation</h4>
-          <p style="line-height:1.8;">
-            ${escapeHTML(hadith.english)}
-          </p>
+        <hr>
 
-          <hr>
+        <h3>Hausa</h3>
+        <p class="meaning">
+          Ana gabatar da fassarar Hausa bayan an tantance ta.
+          Ba a ƙirƙirar fassara a madadin ingantaccen rubutun Hadisi ba.
+        </p>
 
-          <h4>Hausa / Hausa</h4>
-          <p>
-            Ana gabatar da fassarar Hausa bayan tantancewa
-            daga malamin addini. Ba a ƙirƙirar fassara a
-            matsayin ingantacciyar fassarar Hadisi ba.
-          </p>
+        <hr>
 
-          <hr>
+        <h3>🎧 Listen to Hadith ${item.number}</h3>
 
-          <h4>🎧 Listen to Hadith ${number}</h4>
-          <audio
-            id="hadithAudio"
-            controls
-            preload="none"
-            style="width:100%;"
+        <audio
+          id="hadithAudio"
+          controls
+          preload="none"
+          playsinline
+          style="width:100%;display:block;margin:12px 0;"
+        >
+          <source
+            src="${audioURL(item.number)}"
+            type="audio/mpeg"
           >
-            <source src="${audioURL(number)}" type="audio/mpeg">
-            Your browser does not support audio.
-          </audio>
+          Your browser does not support audio.
+        </audio>
 
-          <p style="font-size:13px;">
-            Arabic recitation: Saad al-Ghamadi.
-            Audio source:
-            <a
-              href="https://www.farhathashmi.com/hadith-section/arbain-nawawi/hadith-audios/"
-              target="_blank"
-              rel="noopener"
-            >Farhat Hashmi / Al-Huda Media</a>.
-          </p>
+        <p style="font-size:13px;">
+          Recitation: Saad al-Ghamadi.
+          Audio source:
+          <a
+            href="${AUDIO_PAGE}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Farhat Hashmi / Al-Huda Media</a>.
+        </p>
 
-          <hr>
+        <hr>
 
-          <h4>📖 Narrator</h4>
-          <p>${escapeHTML(getNarrator(hadith.english))}</p>
+        <p>
+          <strong>Narrator:</strong>
+          ${escapeHTML(item.narrator)}
+        </p>
 
-          <h4>Collection</h4>
-          <p>Imam An-Nawawi's Forty Hadith (42 narrations).</p>
+        <p>
+          <strong>Collection:</strong>
+          Forty Hadith of Imam An-Nawawi
+        </p>
 
-        </div>
+        <p>
+          <strong>Collection number:</strong>
+          ${item.number}
+        </p>
 
-        <div style="display:flex;gap:10px;margin-top:15px;">
-          <button id="hadithPrevious" type="button" style="flex:1;padding:12px;">
+        <p>
+          <strong>Original source references:</strong>
+          Consult the source references for this narration before quoting
+          a separate Bukhari or Muslim number.
+        </p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px;justify-content:space-between;">
+          <button
+            class="btn"
+            id="previousHadith"
+            ${current === 0 ? "disabled" : ""}
+          >
             ← Previous
           </button>
-          <button id="hadithNext" type="button" style="flex:1;padding:12px;">
+
+          <button
+            class="btn"
+            id="nextHadith"
+            ${current === hadiths.length - 1 ? "disabled" : ""}
+          >
             Next →
           </button>
         </div>
+      </div>
 
+      <div class="card">
+        <p>
+          Source: fawazahmed0/hadith-api,
+          Forty Hadith of An-Nawawi.
+        </p>
+
+        <p>
+          Arabic and English texts are loaded from the source editions.
+        </p>
       </div>
     `;
 
-    document.getElementById("hadithSelect").addEventListener(
-      "change",
-      function () {
-        current = Number(this.value);
-        render();
-      }
-    );
-
-    document.getElementById("hadithPrevious").addEventListener(
-      "click",
-      function () {
+    document.getElementById("previousHadith")
+      .addEventListener("click", function () {
         if (current > 0) {
           current--;
           render();
         }
-      }
-    );
+      });
 
-    document.getElementById("hadithNext").addEventListener(
-      "click",
-      function () {
+    document.getElementById("nextHadith")
+      .addEventListener("click", function () {
         if (current < hadiths.length - 1) {
           current++;
           render();
         }
-      }
-    );
+      });
 
-    document.getElementById("hadithSearch").addEventListener(
-      "input",
-      function () {
+    document.getElementById("hadithSelect")
+      .addEventListener("change", function () {
+        current = Number(this.value);
+        render();
+      });
+
+    document.getElementById("hadithSearch")
+      .addEventListener("input", function () {
         const query = this.value.toLowerCase().trim();
-
-        const results = hadiths.filter(function (item) {
-          return (
-            item.english.toLowerCase().includes(query) ||
-            item.arabic.includes(query) ||
-            String(item.number).includes(query)
-          );
-        });
-
         const select = document.getElementById("hadithSelect");
 
-        if (query && results.length) {
-          select.innerHTML = results.map(function (item) {
-            return `
-              <option value="${hadiths.indexOf(item)}">
-                Hadith ${item.number}
-              </option>
-            `;
-          }).join("");
-        } else if (!query) {
-          select.innerHTML = hadiths.map(function (item, index) {
-            return `
-              <option value="${index}" ${index === current ? "selected" : ""}>
-                Hadith ${item.number}
-              </option>
-            `;
-          }).join("");
-        } else {
-          select.innerHTML = `<option>No Hadith found</option>`;
+        select.innerHTML = "";
+
+        hadiths.forEach(function (h, i) {
+          const searchable = (
+            h.arabic + " " + h.english + " " + h.narrator
+          ).toLowerCase();
+
+          if (!query || searchable.includes(query)) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = "Hadith " + (i + 1);
+            select.appendChild(option);
+          }
+        });
+
+        if (select.options.length) {
+          select.value = String(current);
         }
-      }
-    );
+      });
   }
 
-  async function loadHadith() {
-    panel.innerHTML = `
-      <p style="text-align:center;padding:20px;">
-        Loading Hadith... Please wait.
-      </p>
-    `;
+  async function loadAll() {
+    showMessage("Loading all 42 Hadith. Please wait...");
 
     try {
-      const responses = await Promise.all([
-        fetch(ARABIC_URL),
-        fetch(ENGLISH_URL)
+      const results = await Promise.all([
+        loadEdition(SOURCES.arabic),
+        loadEdition(SOURCES.english)
       ]);
 
-      if (!responses[0].ok || !responses[1].ok) {
-        throw new Error("Could not load Hadith data.");
-      }
-
-      const arabicData = await responses[0].json();
-      const englishData = await responses[1].json();
-
-      if (
-        !Array.isArray(arabicData.hadiths) ||
-        !Array.isArray(englishData.hadiths)
-      ) {
-        throw new Error("Invalid Hadith data format.");
-      }
+      const arabicRecords = results[0];
+      const englishRecords = results[1];
 
       const englishMap = new Map();
 
-      englishData.hadiths.forEach(function (item, index) {
+      englishRecords.forEach(function (item, index) {
         englishMap.set(getNumber(item, index), item);
       });
 
-      hadiths = arabicData.hadiths.map(function (arabicItem, index) {
-        const number = getNumber(arabicItem, index);
-        const englishItem = englishMap.get(number);
+      hadiths = arabicRecords
+        .map(function (arabicItem, index) {
+          const number = getNumber(arabicItem, index);
+          const englishItem = englishMap.get(number);
 
-        if (!englishItem) return null;
+          if (!englishItem) return null;
 
-        return {
-          number: number,
-          arabic: getText(arabicItem),
-          english: getText(englishItem)
-        };
-      }).filter(function (item) {
-        return item && item.arabic && item.english;
-      });
+          const english = getText(englishItem);
+          const arabic = getText(arabicItem);
+
+          if (!arabic || !english) return null;
+
+          return {
+            number: number,
+            arabic: arabic,
+            english: english,
+            narrator: getNarrator(english)
+          };
+        })
+        .filter(Boolean)
+        .sort(function (a, b) {
+          return a.number - b.number;
+        });
 
       if (hadiths.length !== 42) {
         throw new Error(
-          "Expected 42 Hadith, but loaded " + hadiths.length
+          "The source returned " + hadiths.length +
+          " matching Hadith instead of 42."
         );
       }
 
+      current = 0;
       render();
 
     } catch (error) {
       console.error("Hadith loading error:", error);
 
-      panel.innerHTML = `
-        <h3>Hadith Learning</h3>
-        <p>Unable to load Hadith right now.</p>
-        <p>Please check your internet connection and try again.</p>
-        <button onclick="location.reload()">Try Again</button>
-      `;
+      showMessage(
+        "Could not load all 42 Hadith. Check your internet connection " +
+        "and try again."
+      );
     }
   }
 
-  loadHadith();
+  loadAll();
 })();
-               
+       
