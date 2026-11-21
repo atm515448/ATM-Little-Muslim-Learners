@@ -20,16 +20,40 @@ const tx = value => Array.isArray(value) ? value[li()] : value;
 const ui = key => tx(UI[key]);
 const $ = id => document.getElementById(id);
 
-/* ---------- SETTINGS: THEME AND TEXT SIZE ---------- */
+/* ---------- SETTINGS ---------- */
+
+function getSavedSetting(key, fallback) {
+  try {
+    return localStorage.getItem(key) || fallback;
+  } catch (e) {
+    return fallback;
+  }
+}
+
+function updateSettingsControls() {
+  const theme = document.documentElement.dataset.theme || "light";
+  const textSize = document.documentElement.dataset.textSize || "medium";
+
+  const controls = {
+    themeLight: theme === "light",
+    themeDark: theme === "dark",
+    textSmall: textSize === "small",
+    textMedium: textSize === "medium",
+    textLarge: textSize === "large"
+  };
+
+  Object.entries(controls).forEach(([id, active]) => {
+    const button = $(id);
+    if (!button) return;
+
+    button.classList.toggle("alt", !active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
 
 function applySettings() {
-  let theme = "light";
-  let textSize = "medium";
-
-  try {
-    theme = localStorage.getItem("lml_theme") || "light";
-    textSize = localStorage.getItem("lml_text_size") || "medium";
-  } catch (e) {}
+  let theme = getSavedSetting("lml_theme", "light");
+  let textSize = getSavedSetting("lml_text_size", "medium");
 
   if (!["light", "dark"].includes(theme)) theme = "light";
   if (!["small", "medium", "large"].includes(textSize)) {
@@ -38,45 +62,33 @@ function applySettings() {
 
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.textSize = textSize;
+
+  updateSettingsControls();
 }
 
 function saveTheme(theme) {
+  if (!["light", "dark"].includes(theme)) return;
+
   document.documentElement.dataset.theme = theme;
 
   try {
     localStorage.setItem("lml_theme", theme);
   } catch (e) {}
+
+  updateSettingsControls();
 }
 
 function saveTextSize(size) {
+  if (!["small", "medium", "large"].includes(size)) return;
+
   document.documentElement.dataset.textSize = size;
 
   try {
     localStorage.setItem("lml_text_size", size);
   } catch (e) {}
-}
 
-if ($("themeLight")) {
-  $("themeLight").addEventListener("click", () => saveTheme("light"));
+  updateSettingsControls();
 }
-
-if ($("themeDark")) {
-  $("themeDark").addEventListener("click", () => saveTheme("dark"));
-}
-
-if ($("textSmall")) {
-  $("textSmall").addEventListener("click", () => saveTextSize("small"));
-}
-
-if ($("textMedium")) {
-  $("textMedium").addEventListener("click", () => saveTextSize("medium"));
-}
-
-if ($("textLarge")) {
-  $("textLarge").addEventListener("click", () => saveTextSize("large"));
-}
-
-applySettings();
 
 /* ---------- STARS ---------- */
 
@@ -102,18 +114,39 @@ function addStars(number) {
 
 /* ---------- NAVIGATION ---------- */
 
+function addHomeButton(panel) {
+  if (!panel || panel.id === "home") return;
+
+  if (panel.querySelector("[data-home-return]")) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "card";
+  wrapper.setAttribute("data-home-return", "true");
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "btn alt";
+  button.textContent = "← 🏠 Home";
+  button.addEventListener("click", () => openTab("home"));
+
+  wrapper.appendChild(button);
+  panel.prepend(wrapper);
+}
+
 function openTab(tabId) {
   const panel = $(tabId);
 
   if (!panel || !panel.classList.contains("panel")) return;
 
+  document.querySelectorAll(".panel").forEach(section => {
+    section.classList.toggle("active", section.id === tabId);
+  });
+
   document.querySelectorAll(".tab").forEach(button => {
     button.classList.toggle("active", button.dataset.tab === tabId);
   });
 
-  document.querySelectorAll(".panel").forEach(section => {
-    section.classList.toggle("active", section.id === tabId);
-  });
+  addHomeButton(panel);
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -130,7 +163,7 @@ document.querySelectorAll("[data-open-tab]").forEach(button => {
   });
 });
 
-/* ---------- AUDIO HELPER ---------- */
+/* ---------- AUDIO ---------- */
 
 function speak(text, voiceLang) {
   if (!("speechSynthesis" in window)) {
@@ -227,46 +260,10 @@ function renderLetters() {
         </button>
       `).join("")}
     </div>
-
-    <div class="card">
-      <h2>${ui("harakat_h")}</h2>
-      <p>${ui("harakat_p")}</p>
-
-      <div class="harakat">
-        <div>
-          <span>بَ</span>
-          ${ui("fatha")}<br>ba
-          <button class="btn alt" id="soundFatha">🔊</button>
-        </div>
-
-        <div>
-          <span>بِ</span>
-          ${ui("kasra")}<br>bi
-          <button class="btn alt" id="soundKasra">🔊</button>
-        </div>
-
-        <div>
-          <span>بُ</span>
-          ${ui("damma")}<br>bu
-          <button class="btn alt" id="soundDamma">🔊</button>
-        </div>
-
-        <div>
-          <span>بْ</span>
-          ${ui("sukun")}<br>b
-          <button class="btn alt" id="soundSukun">🔊</button>
-        </div>
-      </div>
-    </div>
   `;
 
   $("lsName").onclick = () => speak(letter[1], "ar-SA");
   $("lsWord").onclick = () => speak(letter[3], "ar-SA");
-
-  $("soundFatha").onclick = () => speak("بَ", "ar-SA");
-  $("soundKasra").onclick = () => speak("بِ", "ar-SA");
-  $("soundDamma").onclick = () => speak("بُ", "ar-SA");
-  $("soundSukun").onclick = () => speak("بْ", "ar-SA");
 
   box.querySelectorAll(".letter-tile").forEach(button => {
     button.onclick = () => {
@@ -282,9 +279,11 @@ function renderLetters() {
   });
 }
 
-/* ---------- WUDU AND SALAH LESSONS ---------- */
+/* ---------- WUDU AND SALAH ---------- */
 
 function renderLesson(box, steps, state, key, headerHtml) {
+  if (!box) return;
+
   box.innerHTML = headerHtml + `<div class="card" id="${key}Card"></div>`;
 
   const card = $(key + "Card");
@@ -296,7 +295,9 @@ function renderLesson(box, steps, state, key, headerHtml) {
         <h2 style="text-align:center">${ui("done_h")}</h2>
         <p style="text-align:center">${ui("done_p")}</p>
         <div class="btn-row">
-          <button class="btn" id="${key}Again">${ui("learn_again")}</button>
+          <button class="btn" id="${key}Again">
+            ${ui("learn_again")}
+          </button>
         </div>
       `;
 
@@ -326,8 +327,10 @@ function renderLesson(box, steps, state, key, headerHtml) {
       <p>${tx(step.text)}</p>
 
       ${step.arabic ? `<div class="arabic">${step.arabic}</div>` : ""}
+
       ${step.translit && lang !== "ar"
         ? `<div class="translit">${step.translit}</div>` : ""}
+
       ${step.meaning
         ? `<div class="meaning">${tx(step.meaning)}</div>` : ""}
 
@@ -433,6 +436,7 @@ const azkarCounts = AZKAR.map(() => 0);
 
 function renderAzkar() {
   const box = $("azkar");
+  if (!box) return;
 
   box.innerHTML = `
     <div class="card">
@@ -520,6 +524,7 @@ function quizStart() {
 
 function renderQuiz() {
   const box = $("quiz");
+  if (!box) return;
 
   quiz.token++;
   const myToken = quiz.token;
@@ -635,12 +640,17 @@ function applyStatic() {
 }
 
 function renderAll() {
+  const activePanel = document.querySelector(".panel.active");
+  const currentTab = activePanel ? activePanel.id : "home";
+
   applyStatic();
   renderLetters();
   renderWudu();
   renderSalah();
   renderAzkar();
   renderQuiz();
+
+  openTab(currentTab);
 }
 
 /* ---------- LANGUAGE BUTTONS ---------- */
@@ -657,11 +667,32 @@ document.querySelectorAll(".lang").forEach(button => {
   });
 });
 
+/* ---------- SETTINGS BUTTONS ---------- */
+
+if ($("themeLight")) {
+  $("themeLight").addEventListener("click", () => saveTheme("light"));
+}
+
+if ($("themeDark")) {
+  $("themeDark").addEventListener("click", () => saveTheme("dark"));
+}
+
+if ($("textSmall")) {
+  $("textSmall").addEventListener("click", () => saveTextSize("small"));
+}
+
+if ($("textMedium")) {
+  $("textMedium").addEventListener("click", () => saveTextSize("medium"));
+}
+
+if ($("textLarge")) {
+  $("textLarge").addEventListener("click", () => saveTextSize("large"));
+}
+
 /* ---------- START APPLICATION ---------- */
 
+applySettings();
 renderAll();
-
-/* Open the Home screen first */
 openTab("home");
 
 /* ---------- SERVICE WORKER / OFFLINE SUPPORT ---------- */
@@ -674,4 +705,3 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.error("Service worker error:", error));
   });
      }
-   
