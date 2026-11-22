@@ -444,7 +444,7 @@ function installAyatulKursiControls() {
   `);
 }
 
-/* Watch the Azkar section because its cards are rendered dynamically */
+/* Keep Ayatul Kursi controls available inside Daily Tasbih & Dhikr */
 
 function watchAyatulKursiSection() {
   const azkarBox = document.getElementById("azkar");

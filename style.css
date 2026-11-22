@@ -1074,3 +1074,31 @@ footer .contact {
     min-height: 50px;
   }
 }
+
+
+/* ---------- DAILY TASBIH & DHIKR ---------- */
+.tasbih-group { margin: 18px 0; }
+.tasbih-group > h3 { color: var(--navy); margin: 18px 4px 10px; }
+.tasbih-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.tasbih-card { text-align: center; }
+.tasbih-card .arabic { line-height: 2; font-size: 1.65rem; }
+.tasbih-category { color: var(--green); font-weight: 700; margin: 0; }
+.tasbih-note { font-size: .86rem; }
+.tasbih-progress { display: block; width: 100%; height: 12px; }
+.tasbih-circle {
+  width: 112px; height: 112px; border-radius: 50%;
+  margin: 12px auto 14px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0;
+  border: 5px solid #d9f3e6;
+  color: #fff; background: radial-gradient(circle at 35% 25%, #39bd8d, #08764f);
+  box-shadow: 0 5px 14px rgba(8,118,79,.25), inset 0 2px 5px rgba(255,255,255,.25);
+  cursor: pointer; touch-action: manipulation;
+}
+.tasbih-circle span { font-size: 1.35rem; line-height: 1; }
+.tasbih-circle strong { font-size: 1.15rem; line-height: 1.2; }
+.tasbih-circle small { font-size: .68rem; letter-spacing: .12em; }
+.tasbih-circle:active { transform: scale(.96); }
+.install-app-button { margin: 8px auto 0; background: #239b70; border: 1px solid rgba(255,255,255,.5); }
+@media (min-width: 560px) {
+  .tasbih-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}

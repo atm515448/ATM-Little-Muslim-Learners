@@ -1,0 +1,22 @@
+ATM LITTLE MUSLIM LEARNERS — UPDATE NOTES
+
+Included in this update:
+1. Daily Tasbih & Dhikr now uses a large circular counting button.
+2. Expanded the dhikr collection with categories, counters, daily totals, custom counters and locally saved progress.
+3. Removed the separate Daily Azkar menu/page. The Ayatul Kursi phrase-by-phrase learning controls are retained inside Daily Tasbih & Dhikr.
+4. Expanded the trilingual dictionary from 212 to 250 entries.
+5. Added several reviewed Hausa meanings to Hisnul Muslim. Other entries clearly state when a Hausa translation has not yet been reviewed/added.
+6. Added a visible INSTALL APP button with browser installation prompt support and Chrome fallback instructions.
+7. Updated the app icon, logo artwork and About page with the full developer name and ATM contact details.
+8. Updated the service worker cache to v12 so the new files can be downloaded.
+
+Important items that still need source material:
+- Male and female human teacher recordings for Arabic letters, Harakat, Wudu and Salah have NOT been added. The existing browser speech feature is not a human recording. Please provide licensed recordings or recordings you own before these are integrated.
+- Hausa translations for all 267 Hisnul Muslim entries are not complete. Only selected entries have been translated in this update; remaining entries are explicitly marked as awaiting reviewed Hausa translations.
+- The Dhikr list is a curated selection, not a claim that it contains every possible dhikr. Custom counters are available. Where no prescribed count is shown, the counter is for personal tracking only.
+
+Deployment:
+Upload/replace the files from this ZIP in the existing GitHub repository, preserving the folder structure. Commit message:
+"Expand Tasbih and Dhikr, refresh branding, add install support and dictionary content"
+
+After deployment, open the GitHub Pages app in Chrome and refresh/update it. The service worker cache version is now v12.

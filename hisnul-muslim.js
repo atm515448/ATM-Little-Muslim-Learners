@@ -126,6 +126,22 @@
     `;
   }
 
+  function getHausaMeaning(dua) {
+    const known = {
+      "الْحَمْدُ للَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا، وَإِلَيْهِ النُّشُورُ":
+        "Dukkan yabo ya tabbata ga Allah Wanda Ya rayar da mu bayan Ya sa mun mutu (ta barci), kuma gare Shi ne tashin kiyama.",
+      "الْحَمْدُ لِلَّهِ الَّذِي عَافَانِي فِي جَسَدِي، وَرَدَّ عَلَيَّ رُوحِي، وَأَذِنَ لي بِذِكْرِهِ":
+        "Dukkan yabo ya tabbata ga Allah Wanda Ya ba ni lafiya a jikina, Ya dawo mini da raina, kuma Ya ba ni izinin ambatonSa.",
+      "بِسْمِ اللَّهِ": "Da sunan Allah.",
+      "غُفْرَانَكَ": "Ina neman gafararka, Ya Allah.",
+      "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَاَ حَوْلَ وَلَا قُوَّةَ إِلاَّ بِاللَّهِ":
+        "Da sunan Allah. Na dogara ga Allah. Babu dabara ko ƙarfi sai da taimakon Allah.",
+      "سُبْحانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ أَنْتَ، أَسْتَغْفِرُكَ وَأَتوبُ إِلَيْكَ":
+        "Tsarki ya tabbata a gare Ka, Ya Allah, tare da gode maka. Ina shaida babu abin bautawa da gaskiya sai Kai. Ina neman gafararka kuma ina tuba zuwa gare Ka."
+    };
+    return known[dua.arabic] || "";
+  }
+
   function renderDua(dua, item) {
     if (!dua) return "";
 
@@ -154,8 +170,8 @@
         ` : ""}
 
         <p class="meaning">
-          <strong>Hausa:</strong>
-          Hausa translation is not included in this source dataset.
+          <strong>Ma'ana a Hausa:</strong><br>
+          ${escapeHTML(getHausaMeaning(dua) || "Ba a saka fassarar Hausa da aka tantance ga wannan addu'ar ba tukuna.")}
         </p>
 
         ${times}

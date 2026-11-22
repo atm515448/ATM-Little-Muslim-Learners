@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#263b91" />
 
-  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Azkar, Hadith, Hisnul Muslim, Tasbih and Asma'ul Husna in English, Hausa and Arabic." />
+  <meta name="description" content="ATM Little Muslim Learners: A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Qur’an, Hadith, Hisnul Muslim, Daily Tasbih and Dhikr, and Asma’ul Husna in English, Hausa and Arabic." />
 
   <title>ATM Little Muslim Learners | ATM Digital Solutions & Services</title>
   <link rel="icon" type="image/png" href="icon-192.png" />
@@ -41,6 +41,7 @@
 
     <h1>🌙 <span data-i18n="appName"></span></h1>
     <p data-i18n="tagline"></p>
+    <button class="btn install-app-button" id="installAppButton" type="button">📲 INSTALL APP</button>
 
     <div class="stars" aria-live="polite">
       ⭐ <span data-i18n="stars"></span>:
@@ -97,13 +98,7 @@
             <span>🕌</span>
             <strong>Learn Salah</strong>
           </button>
-
-          <button class="lesson-card" data-open-tab="azkar">
-            <span>📿</span>
-            <strong>Daily Azkar</strong>
-          </button>
-
-          <!-- HISNUL MUSLIM -->
+<!-- HISNUL MUSLIM -->
           <button class="lesson-card" data-open-tab="hisnulMuslim">
             <span>📖</span>
             <strong>Hisnul Muslim</strong>
@@ -112,7 +107,7 @@
           <!-- DAILY TASBIH -->
           <button class="lesson-card" data-open-tab="tasbih">
             <span>📿</span>
-            <strong>Daily Tasbih</strong>
+            <strong>Daily Tasbih &amp; Dhikr</strong>
           </button>
 
           <!-- ASMAUL HUSNA -->
@@ -162,104 +157,36 @@
     <!-- SALAH PAGE -->
     <section id="salah" class="panel"></section>
 
-    <!-- AZKAR PAGE -->
-    <section id="azkar" class="panel"></section>
-
     <!-- HISNUL MUSLIM PAGE -->
     <section id="hisnulMuslim" class="panel"></section>
 
     <!-- HADITH LEARNING PAGE -->
     <section id="hadith" class="panel"></section>
 
-    <!-- DAILY TASBIH PAGE -->
+    <!-- DAILY TASBIH & DHIKR PAGE -->
     <section id="tasbih" class="panel">
-
       <div class="card">
-        <h2>📿 Daily Tasbih</h2>
-        <p>Remember Allah and keep track of your daily dhikr.</p>
-        <p>Ka yawaita ambaton Allah.</p>
-
+        <h2>📿 Daily Tasbih &amp; Dhikr</h2>
+        <p>Remember Allah with a growing collection of authentic adhkar.</p>
+        <p>Ka yawaita ambaton Allah da zikiran da aka koyar a Sunnah.</p>
         <h3>Today's Total / Jimillar yau</h3>
         <p id="dailyTasbihTotal" class="counter">0</p>
         <p>Dhikr counted today</p>
+        <p class="meaning">Some dhikr have established counts; others can be counted freely. Personal goals are not religiously prescribed counts.</p>
       </div>
-
+      <div id="tasbihCollection"></div>
       <div class="card">
-        <h3>سُبْحَانَ اللَّهِ</h3>
-        <p class="translit">SubhanAllah</p>
-        <p class="meaning">Glory be to Allah.</p>
-        <p class="meaning">Tsarki ya tabbata ga Allah.</p>
-
-        <p id="countSubhan" class="counter">0 / 33</p>
-        <progress id="progressSubhan" value="0" max="33"
-          style="width:100%;height:14px;"></progress>
-
-        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-          type="button" onclick="countTasbih('subhan')">
-          👆 TAP TO COUNT
-        </button>
-
-        <button class="btn alt" type="button"
-          onclick="resetTasbih('subhan')">Reset</button>
+        <h3>➕ Add Your Own Dhikr</h3>
+        <label for="customDhikrText">Dhikr name / Sunan zikiri</label>
+        <input id="customDhikrText" type="text" maxlength="80" placeholder="Enter a dhikr phrase">
+        <button class="btn" id="addCustomDhikr" type="button">Add custom counter</button>
+        <p class="meaning">Custom counters are for personal tracking. They do not establish a Sunnah count.</p>
       </div>
-
       <div class="card">
-        <h3>الْحَمْدُ لِلَّهِ</h3>
-        <p class="translit">Alhamdulillah</p>
-        <p class="meaning">All praise belongs to Allah.</p>
-        <p class="meaning">Dukkan yabo ya tabbata ga Allah.</p>
-
-        <p id="countAlham" class="counter">0 / 33</p>
-        <progress id="progressAlham" value="0" max="33"
-          style="width:100%;height:14px;"></progress>
-
-        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-          type="button" onclick="countTasbih('alham')">
-          👆 TAP TO COUNT
-        </button>
-
-        <button class="btn alt" type="button"
-          onclick="resetTasbih('alham')">Reset</button>
+        <h3>📖 Ayatul Kursi — Phrase-by-Phrase Audio</h3>
+        <p>Listen to the verses in short parts and practise the pronunciation.</p>
+        <button class="btn" id="s4" type="button">🎧 Start Ayatul Kursi</button>
       </div>
-
-      <div class="card">
-        <h3>اللَّهُ أَكْبَرُ</h3>
-        <p class="translit">Allahu Akbar</p>
-        <p class="meaning">Allah is the Greatest.</p>
-        <p class="meaning">Allah ne Mafi girma.</p>
-
-        <p id="countAkbar" class="counter">0 / 34</p>
-        <progress id="progressAkbar" value="0" max="34"
-          style="width:100%;height:14px;"></progress>
-
-        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-          type="button" onclick="countTasbih('akbar')">
-          👆 TAP TO COUNT
-        </button>
-
-        <button class="btn alt" type="button"
-          onclick="resetTasbih('akbar')">Reset</button>
-      </div>
-
-      <div class="card">
-        <h3>أَسْتَغْفِرُ اللَّهَ</h3>
-        <p class="translit">Astaghfirullah</p>
-        <p class="meaning">I seek forgiveness from Allah.</p>
-        <p class="meaning">Ina neman gafarar Allah.</p>
-
-        <p id="countAstaghfir" class="counter">0 / 100</p>
-        <progress id="progressAstaghfir" value="0" max="100"
-          style="width:100%;height:14px;"></progress>
-
-        <button class="btn" style="width:100%;padding:18px;font-size:20px;"
-          type="button" onclick="countTasbih('astaghfir')">
-          👆 TAP TO COUNT
-        </button>
-
-        <button class="btn alt" type="button"
-          onclick="resetTasbih('astaghfir')">Reset</button>
-      </div>
-
     </section>
 
     <!-- QUIZ PAGE -->
@@ -329,15 +256,18 @@
           height="88"
         />
 
+        <img src="ATM-LML-brand-logo.png" alt="ATM Little Muslim Learners — An Islamic Learning App for Children" style="display:block;width:100%;max-width:520px;height:auto;margin:12px auto;border-radius:12px;">
         <h2>ATM Little Muslim Learners</h2>
-        <p>A simple Islamic learning application for children.</p>
+        <p>An Islamic Learning App for Children.</p>
       </div>
 
       <div class="card">
         <h2>👨‍💻 About the Developer</h2>
-        <p><strong>Developed by:</strong> Abdussalam Tahir</p>
-        <p><strong>Role:</strong> Founder & Developer</p>
-        <p><strong>Organisation:</strong> ATM Digital Solutions & Services</p>
+        <p><strong>Created and developed by:</strong> Abdussalam Tahir Malumfashi</p>
+        <p><strong>Role:</strong> Founder &amp; Developer</p>
+        <p><strong>Organisation:</strong> ATM Digital Solutions &amp; Services</p>
+        <p><strong>Contact:</strong> 08133515448</p>
+        <p><strong>Email:</strong> atmdigitalservice@gmail.com</p>
         <p><strong>Slogan:</strong> Learn • Collaborate • Achieve</p>
       </div>
 
@@ -472,6 +402,8 @@
   <!-- APPLICATION JAVASCRIPT -->
   <script src="data.js"></script>
   <script src="script.js"></script>
+  <script src="tasbih.js"></script>
+  <script src="install-app.js"></script>
   <script src="quran-reader.js"></script>
   <script src="harakat-practice.js"></script>
   <script src="asmaul-husna.js"></script>
@@ -492,131 +424,7 @@
   <!-- ATM FIREBASE CONNECTION -->
   <script src="firebase.js"></script>
 
-  <!-- DAILY TASBIH COUNTER -->
-  <script>
-  (function () {
-    "use strict";
 
-    const targets = {
-      subhan: 33,
-      alham: 33,
-      akbar: 34,
-      astaghfir: 100
-    };
-
-    const elementIds = {
-      subhan: "countSubhan",
-      alham: "countAlham",
-      akbar: "countAkbar",
-      astaghfir: "countAstaghfir"
-    };
-
-    const progressIds = {
-      subhan: "progressSubhan",
-      alham: "progressAlham",
-      akbar: "progressAkbar",
-      astaghfir: "progressAstaghfir"
-    };
-
-    const storageKey = "lml_tasbih_counts";
-    const dailyKey = "lml_tasbih_daily";
-
-    let counts = {};
-    let daily = {};
-
-    try {
-      counts = JSON.parse(localStorage.getItem(storageKey)) || {};
-      daily = JSON.parse(localStorage.getItem(dailyKey)) || {};
-    } catch (error) {
-      counts = {};
-      daily = {};
-    }
-
-    const today = new Date().toLocaleDateString("en-CA");
-
-    if (daily.date !== today) {
-      daily = {
-        date: today,
-        counts: {
-          subhan: 0,
-          alham: 0,
-          akbar: 0,
-          astaghfir: 0
-        }
-      };
-    }
-
-    if (!daily.counts) {
-      daily.counts = {
-        subhan: 0,
-        alham: 0,
-        akbar: 0,
-        astaghfir: 0
-      };
-    }
-
-    function save() {
-      localStorage.setItem(storageKey, JSON.stringify(counts));
-      localStorage.setItem(dailyKey, JSON.stringify(daily));
-    }
-
-    function updateDisplay(name) {
-      const count = Number(counts[name]) || 0;
-      const countElement = document.getElementById(elementIds[name]);
-      const progressElement = document.getElementById(progressIds[name]);
-
-      if (countElement) {
-        countElement.textContent = count + " / " + targets[name];
-      }
-
-      if (progressElement) {
-        progressElement.value = Math.min(count, targets[name]);
-      }
-
-      updateDailyTotal();
-    }
-
-    function updateDailyTotal() {
-      const totalElement = document.getElementById("dailyTasbihTotal");
-
-      if (!totalElement) return;
-
-      const total = Object.values(daily.counts)
-        .reduce((sum, value) => sum + (Number(value) || 0), 0);
-
-      totalElement.textContent = total;
-    }
-
-    window.countTasbih = function (name) {
-      if (!(name in targets)) return;
-
-      counts[name] = (Number(counts[name]) || 0) + 1;
-      daily.counts[name] = (Number(daily.counts[name]) || 0) + 1;
-
-      save();
-      updateDisplay(name);
-
-      if ("vibrate" in navigator) {
-        navigator.vibrate(30);
-      }
-    };
-
-    window.resetTasbih = function (name) {
-      if (!(name in targets)) return;
-
-      counts[name] = 0;
-      daily.counts[name] = 0;
-
-      save();
-      updateDisplay(name);
-    };
-
-    Object.keys(targets).forEach(updateDisplay);
-    updateDailyTotal();
-
-    save();
-  })();
-  </script>
 
 </body>
             </html>

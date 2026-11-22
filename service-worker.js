@@ -1,12 +1,12 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v11";
+const CACHE_NAME = "atm-little-muslim-learners-v12";
 const APP_FILES = [
   "./", "./index.html", "./style.css", "./quran-reader.css", "./dictionary.css", "./dictionary.js", "./dictionary-data.js",
   "./data.js", "./script.js", "./quran-reader.js",
   "./harakat-practice.js", "./asmaul-husna.js", "./hisnul-muslim.js",
-  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json",
+  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./ATM-LML-brand-logo.png",
   "./logo.png", "./icon-192.png", "./icon-512.png"
 ];
 

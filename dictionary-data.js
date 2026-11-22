@@ -285,4 +285,59 @@ const DICTIONARY_DATA = [
   { en: "Nine", ha: "Tara", ar: "تسعة", category: "Time and Numbers" },
   { en: "Ten", ha: "Goma", ar: "عشرة", category: "Time and Numbers" },
 
+
+  // =====================================
+  // CATEGORY 14: DAILY CONVERSATION
+  // =====================================
+  { en: "Please", ha: "Don Allah", ar: "من فضلك", category: "Daily Conversation" },
+  { en: "Thank you", ha: "Na gode", ar: "شكراً", category: "Daily Conversation" },
+  { en: "Sorry", ha: "Yi hakuri", ar: "آسف", category: "Daily Conversation" },
+  { en: "Welcome", ha: "Barka da zuwa", ar: "أهلاً وسهلاً", category: "Daily Conversation" },
+  { en: "Good morning", ha: "Ina kwana", ar: "صباح الخير", category: "Daily Conversation" },
+  { en: "Good evening", ha: "Ina yini", ar: "مساء الخير", category: "Daily Conversation" },
+  { en: "How are you?", ha: "Yaya kake?", ar: "كيف حالك؟", category: "Daily Conversation" },
+  { en: "I am fine", ha: "Lafiya lau", ar: "أنا بخير", category: "Daily Conversation" },
+  { en: "Yes", ha: "Eh", ar: "نعم", category: "Daily Conversation" },
+  { en: "No", ha: "A'a", ar: "لا", category: "Daily Conversation" },
+
+  // =====================================
+  // CATEGORY 15: PLACES AND TRANSPORT
+  // =====================================
+  { en: "House", ha: "Gida", ar: "بيت", category: "Places and Transport" },
+  { en: "Market", ha: "Kasuwa", ar: "سوق", category: "Places and Transport" },
+  { en: "Hospital", ha: "Asibiti", ar: "مستشفى", category: "Places and Transport" },
+  { en: "Road", ha: "Hanya", ar: "طريق", category: "Places and Transport" },
+  { en: "Car", ha: "Mota", ar: "سيارة", category: "Places and Transport" },
+  { en: "Bus", ha: "Motar haya", ar: "حافلة", category: "Places and Transport" },
+  { en: "School", ha: "Makaranta", ar: "مدرسة", category: "Places and Transport" },
+  { en: "Shop", ha: "Shago", ar: "متجر", category: "Places and Transport" },
+
+  // =====================================
+  // CATEGORY 16: TECHNOLOGY AND COMPUTERS
+  // =====================================
+  { en: "Computer", ha: "Kwamfuta", ar: "حاسوب", category: "Technology and Computers" },
+  { en: "Keyboard", ha: "Allon rubutu", ar: "لوحة المفاتيح", category: "Technology and Computers" },
+  { en: "Mouse", ha: "Beran kwamfuta", ar: "فأرة", category: "Technology and Computers" },
+  { en: "Screen", ha: "Allon kallo", ar: "شاشة", category: "Technology and Computers" },
+  { en: "Internet", ha: "Intanet", ar: "الإنترنت", category: "Technology and Computers" },
+  { en: "Mobile phone", ha: "Wayar hannu", ar: "هاتف محمول", category: "Technology and Computers" },
+  { en: "Printer", ha: "Na'urar bugawa", ar: "طابعة", category: "Technology and Computers" },
+  { en: "File", ha: "Fayil", ar: "ملف", category: "Technology and Computers" },
+  { en: "Password", ha: "Kalmar sirri", ar: "كلمة المرور", category: "Technology and Computers" },
+  { en: "Website", ha: "Shafin yanar gizo", ar: "موقع إلكتروني", category: "Technology and Computers" },
+
+  // =====================================
+  // CATEGORY 17: SCHOOL AND LEARNING
+  // =====================================
+  { en: "Teacher", ha: "Malami", ar: "معلّم", category: "School and Learning" },
+  { en: "Student", ha: "Dalibi", ar: "طالب", category: "School and Learning" },
+  { en: "Book", ha: "Littafi", ar: "كتاب", category: "School and Learning" },
+  { en: "Pen", ha: "Alƙalami", ar: "قلم", category: "School and Learning" },
+  { en: "Pencil", ha: "Fensir", ar: "قلم رصاص", category: "School and Learning" },
+  { en: "Lesson", ha: "Darasi", ar: "درس", category: "School and Learning" },
+  { en: "Question", ha: "Tambaya", ar: "سؤال", category: "School and Learning" },
+  { en: "Answer", ha: "Amsa", ar: "جواب", category: "School and Learning" },
+  { en: "Knowledge", ha: "Ilimi", ar: "علم", category: "School and Learning" },
+  { en: "Classroom", ha: "Ajin karatu", ar: "فصل دراسي", category: "School and Learning" },
+
 ];
