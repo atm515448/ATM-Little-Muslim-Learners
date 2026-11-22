@@ -444,26 +444,15 @@ function installAyatulKursiControls() {
   `);
 }
 
-/* Keep Ayatul Kursi controls available inside Daily Tasbih & Dhikr */
+/* Install Ayatul Kursi controls in the current Tasbih & Dhikr page.
+   The old Daily Azkar (#azkar) page was removed, so observing that
+   deleted section prevented the Start button from receiving its handler. */
 
-function watchAyatulKursiSection() {
-  const azkarBox = document.getElementById("azkar");
-
-  if (!azkarBox || !("MutationObserver" in window)) return;
-
-  const observer = new MutationObserver(function () {
-    installAyatulKursiControls();
-  });
-
-  observer.observe(azkarBox, {
-    childList: true,
-    subtree: true
-  });
-
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", installAyatulKursiControls, { once: true });
+} else {
   installAyatulKursiControls();
 }
-
-watchAyatulKursiSection();
 
 
 /* ---------- ARABIC LETTERS ---------- */
