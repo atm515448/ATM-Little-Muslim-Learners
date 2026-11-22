@@ -1,0 +1,15 @@
+ATM Little Muslim Learners — Branding update files
+
+Replace these files in the ROOT of your GitHub repository:
+- icon-192.png
+- icon-512.png
+- logo.png
+- ATM-LML-brand-logo.png
+- manifest.json
+- index.html
+
+The existing filenames are retained so the app can use the new artwork.
+The manifest description and image alt text now describe the app as being
+for everyone, not only children.
+
+Google Analytics and Firebase configuration files are not included or changed.

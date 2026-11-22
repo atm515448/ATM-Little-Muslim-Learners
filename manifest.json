@@ -1,7 +1,7 @@
 {
   "name": "ATM Little Muslim Learners",
   "short_name": "Little Muslim",
-  "description": "A child-friendly Islamic learning app for Arabic letters, Harakat, Wudu, Salah, Qur’an, Hadith, Hisnul Muslim, Daily Tasbih & Dhikr and Asma’ul Husna in English, Hausa and Arabic.",
+  "description": "An Islamic learning app for children, teenagers and adults, featuring Qur’an, Hadith, Arabic learning, Wudu, Salah, Hisnul Muslim, Tasbih & Dhikr, Asma’ul Husna and an English-Hausa-Arabic dictionary.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",
