@@ -100,12 +100,18 @@
       tile.setAttribute("aria-pressed", String(active));
     });
   }
-  async function openSelected() {
-    const id = Number($("quranSurah").value); currentSurah = id;
+  async function openSurah(id) {
+    id = Number(id);
+    if (!Number.isInteger(id) || id < 1 || id > 114) return;
+    currentSurah = id;
+    $("quranSurah").value = String(id);
     updateSurahTiles();
     $("quranStatus").textContent = "Loading surah " + id + "…";
     try { render(await loadSurah(id, false)); }
     catch (e) { $("quranStatus").textContent = "Could not load this surah: " + e.message + " Check your internet connection and try again."; }
+  }
+  function openSelected() {
+    openSurah($("quranSurah").value);
   }
   async function downloadAll() {
     const button = $("quranDownloadAll"); button.disabled = true;
@@ -141,7 +147,7 @@
       arabic.className = "quran-surah-arabic";
       arabic.textContent = n[1];
       tile.append(number, english, arabic);
-      tile.addEventListener("click", () => { select.value = String(id); openSelected(); });
+      tile.addEventListener("click", () => openSurah(id));
       grid.appendChild(tile);
     });
     $("quranLoad").addEventListener("click", openSelected);

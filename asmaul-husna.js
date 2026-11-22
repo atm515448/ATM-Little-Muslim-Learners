@@ -142,7 +142,7 @@ const asmaulHusnaNames = [
 
     #asmaHusnaGrid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-top: 15px;
     }
@@ -212,6 +212,34 @@ const asmaulHusnaNames = [
     #asmaulHusna .asma-empty {
       text-align: center;
       padding: 20px;
+    }
+
+    /* Keep the 99 Names in exactly two columns on phones and larger screens. */
+    @media (max-width: 480px) {
+      #asmaHusnaGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      #asmaulHusna .asma-card {
+        min-width: 0;
+        padding: 9px 6px;
+        overflow-wrap: anywhere;
+      }
+      #asmaulHusna .asma-arabic {
+        font-size: clamp(1.35rem, 6vw, 1.8rem);
+      }
+      #asmaulHusna .asma-translit {
+        font-size: .88rem;
+      }
+      #asmaulHusna .asma-meaning,
+      #asmaulHusna .asma-hausa {
+        font-size: .78rem;
+        line-height: 1.5;
+      }
+      #asmaulHusna .asma-speak {
+        padding: 7px 9px;
+        font-size: .78rem;
+      }
     }
   `;
 
