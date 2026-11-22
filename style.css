@@ -1098,7 +1098,6 @@ footer .contact {
 .tasbih-circle strong { font-size: 1.15rem; line-height: 1.2; }
 .tasbih-circle small { font-size: .68rem; letter-spacing: .12em; }
 .tasbih-circle:active { transform: scale(.96); }
-.install-app-button { margin: 8px auto 0; background: #239b70; border: 1px solid rgba(255,255,255,.5); }
 @media (min-width: 560px) {
   .tasbih-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
