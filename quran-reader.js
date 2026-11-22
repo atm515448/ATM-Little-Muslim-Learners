@@ -106,7 +106,11 @@
     currentSurah = id;
     $("quranSurah").value = String(id);
     updateSurahTiles();
-    $("quranStatus").textContent = "Loading surah " + id + "…";
+    $("quranSurahListView").hidden = true;
+    $("quranReadingView").hidden = false;
+    $("quranStatus").textContent = "Loading " + names[id - 1][0] + "…";
+    $("quranVerses").replaceChildren();
+    $("quranAudioBox").hidden = true;
     try { render(await loadSurah(id, false)); }
     catch (e) { $("quranStatus").textContent = "Could not load this surah: " + e.message + " Check your internet connection and try again."; }
   }
@@ -116,11 +120,11 @@
   async function downloadAll() {
     const button = $("quranDownloadAll"); button.disabled = true;
     for (let id = 1; id <= 114; id++) {
-      $("quranStatus").textContent = "Saving Qur’an text offline: surah " + id + " of 114… Please keep this page open and connected to the internet.";
+      $("quranListStatus").textContent = "Saving Qur’an text offline: surah " + id + " of 114… Please keep this page open and connected to the internet.";
       try { await loadSurah(id, true); }
-      catch (e) { $("quranStatus").textContent = "Stopped at surah " + id + ": " + e.message + " You can retry later."; button.disabled = false; return; }
+      catch (e) { $("quranListStatus").textContent = "Stopped at surah " + id + ": " + e.message + " You can retry later."; button.disabled = false; return; }
     }
-    $("quranStatus").textContent = "All 114 surahs have been saved for offline reading on this device.";
+    $("quranListStatus").textContent = "All 114 surahs have been saved for offline reading on this device.";
     button.disabled = false;
   }
   function init() {
@@ -151,6 +155,15 @@
       grid.appendChild(tile);
     });
     $("quranLoad").addEventListener("click", openSelected);
+    $("quranBackToList").addEventListener("click", () => {
+      $("quranReadingView").hidden = true;
+      $("quranSurahListView").hidden = false;
+      $("quranAudio").pause();
+      $("quranAudio").removeAttribute("src");
+      $("quranAudio").load();
+      $("quranAudioBox").hidden = true;
+      window.scrollTo({ top: $("quran").offsetTop, behavior: "smooth" });
+    });
     $("quranSearch").addEventListener("input", e => {
       const q = e.target.value.toLowerCase().trim();
       Array.from(select.options).forEach((o, i) => {
@@ -164,9 +177,13 @@
     $("quranResume").addEventListener("click", () => { const id = Number(localStorage.getItem("lml_quran_last") || localStorage.getItem("lml_quran_bookmark") || 1); select.value = String(id); openSelected(); });
     $("quranDownloadCurrent").addEventListener("click", async () => { $("quranStatus").textContent = "Saving this surah…"; try { render(await loadSurah(currentSurah, true)); } catch (e) { $("quranStatus").textContent = "Download failed: " + e.message; } });
     $("quranDownloadAll").addEventListener("click", downloadAll);
-    const last = Number(localStorage.getItem("lml_quran_last") || 1); select.value = String(last);
-    currentSurah = last; updateSurahTiles();
-    openSelected();
+    const last = Number(localStorage.getItem("lml_quran_last") || 1);
+    select.value = String(last >= 1 && last <= 114 ? last : 1);
+    currentSurah = Number(select.value);
+    updateSurahTiles();
+    $("quranReadingView").hidden = true;
+    $("quranSurahListView").hidden = false;
+    $("quranListStatus").textContent = "Choose a surah to open its verses, translations and audio.";
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
