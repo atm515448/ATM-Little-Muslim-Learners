@@ -13,6 +13,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="quran-reader.css" />
+  <link rel="stylesheet" href="dictionary.css" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JNR4SP2C40"></script>
@@ -51,6 +52,7 @@
   <nav class="tabs" aria-label="Main navigation">
     <button class="tab active" data-tab="home">🏠 Home</button>
     <button class="tab" data-tab="quran">📖 Qur’an</button>
+    <button class="tab" data-tab="dictionary">📚 Dictionary</button>
     <button class="tab" data-tab="settings">⚙️ Settings</button>
     <button class="tab" data-tab="about">ℹ️ About</button>
   </nav>
@@ -76,6 +78,7 @@
 
         <div class="lesson-grid">
           <button class="lesson-card" data-open-tab="quran"><span>📖</span><strong>Complete Qur’an</strong></button>
+          <button class="lesson-card" data-open-tab="dictionary"><span>📚</span><strong>Trilingual Dictionary</strong></button>
 
           <button class="lesson-card" data-open-tab="letters">
             <span>🔤</span>
@@ -403,6 +406,24 @@
     </section>
 
 
+    <!-- TRILINGUAL DICTIONARY -->
+    <section id="dictionary" class="panel">
+      <div class="card dictionary-card">
+        <h2>📚 Trilingual Dictionary</h2>
+        <p>Learn words in English, Hausa and Arabic.</p>
+        <label for="dictionarySearch">Search words / Nemi kalma</label>
+        <input id="dictionarySearch" type="search" placeholder="Type a word in English, Hausa or Arabic..." autocomplete="off">
+        <label for="dictionaryCategory">Category / Rukuni</label>
+        <select id="dictionaryCategory"><option value="">All categories</option></select>
+        <div class="dictionary-tools">
+          <span id="dictionaryCount" aria-live="polite"></span>
+          <label class="dictionary-voice-label" for="dictionaryVoice">Audio voice</label>
+          <select id="dictionaryVoice"><option value="auto">Automatic voice</option></select>
+        </div>
+        <div id="dictionaryResults" class="dictionary-results" aria-live="polite"></div>
+      </div>
+    </section>
+
     <!-- COMPLETE QURAN READER -->
     <section id="quran" class="panel">
       <div class="card quran-card">
@@ -411,7 +432,8 @@
         <label for="quranSearch">Search surah</label>
         <input id="quranSearch" type="search" placeholder="Search by surah name or number" autocomplete="off">
         <label for="quranSurah">Choose surah</label>
-        <select id="quranSurah"></select>
+        <select id="quranSurah" class="quran-surah-accessible" aria-label="Choose a surah"></select>
+        <div id="quranSurahGrid" class="quran-surah-grid" aria-label="All 114 Qur’an surahs"></div>
         <div class="quran-actions">
           <button class="btn" id="quranLoad">Open surah</button>
           <button class="btn alt" id="quranBookmark">☆ Bookmark</button>
@@ -453,6 +475,8 @@
 
   <!-- HADITH LEARNING MODULE -->
   <script src="hadith.js"></script>
+  <script src="dictionary-data.js"></script>
+  <script src="dictionary.js"></script>
 
   <!-- FIREBASE SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>

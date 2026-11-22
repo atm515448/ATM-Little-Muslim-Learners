@@ -76,7 +76,7 @@ const DICTIONARY_DATA = [
   { en: "Heart", ha: "Zuciya", ar: "قلب", category: "Qur'an Vocabulary" },
   { en: "People", ha: "Mutane", ar: "ناس", category: "Qur'an Vocabulary" },
   { en: "Truth", ha: "Gaskiya", ar: "حق", category: "Qur'an Vocabulary" },
-  { en: "Knowledge", ha: "Ilimi", ar: "علم", category: "Qur'an Vocabulary" }
+  { en: "Knowledge", ha: "Ilimi", ar: "علم", category: "Qur'an Vocabulary" },
 
   // =====================================
   // CATEGORY 4: HADITH VOCABULARY

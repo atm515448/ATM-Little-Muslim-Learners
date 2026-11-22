@@ -94,8 +94,15 @@
       $("quranAudioBox").querySelector("small").textContent = "Audio catalogue could not be loaded: " + e.message;
     }
   }
+  function updateSurahTiles() {
+    document.querySelectorAll(".quran-surah-tile").forEach(tile => {
+      const active = Number(tile.dataset.surah) === currentSurah;
+      tile.setAttribute("aria-pressed", String(active));
+    });
+  }
   async function openSelected() {
     const id = Number($("quranSurah").value); currentSurah = id;
+    updateSurahTiles();
     $("quranStatus").textContent = "Loading surah " + id + "…";
     try { render(await loadSurah(id, false)); }
     catch (e) { $("quranStatus").textContent = "Could not load this surah: " + e.message + " Check your internet connection and try again."; }
@@ -112,18 +119,47 @@
   }
   function init() {
     const select = $("quranSurah"); if (!select) return;
-    names.forEach((n, i) => { const o = document.createElement("option"); o.value = String(i + 1); o.textContent = (i + 1) + ". " + n[0] + " — " + n[1]; select.appendChild(o); });
+    const grid = $("quranSurahGrid");
+    names.forEach((n, i) => {
+      const id = i + 1;
+      const option = document.createElement("option");
+      option.value = String(id);
+      option.textContent = id + ". " + n[0] + " — " + n[1];
+      select.appendChild(option);
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "quran-surah-tile";
+      tile.dataset.surah = String(id);
+      tile.setAttribute("aria-pressed", "false");
+      const number = document.createElement("span");
+      number.className = "quran-surah-number";
+      number.textContent = String(id).padStart(3, "0");
+      const english = document.createElement("span");
+      english.className = "quran-surah-english";
+      english.textContent = n[0];
+      const arabic = document.createElement("span");
+      arabic.className = "quran-surah-arabic";
+      arabic.textContent = n[1];
+      tile.append(number, english, arabic);
+      tile.addEventListener("click", () => { select.value = String(id); openSelected(); });
+      grid.appendChild(tile);
+    });
     $("quranLoad").addEventListener("click", openSelected);
     $("quranSearch").addEventListener("input", e => {
       const q = e.target.value.toLowerCase().trim();
-      Array.from(select.options).forEach((o, i) => { o.hidden = !!q && !((i + 1) + " " + names[i][0] + " " + names[i][1]).toLowerCase().includes(q); });
-      const first = Array.from(select.options).find(o => !o.hidden); if (first) select.value = first.value;
+      Array.from(select.options).forEach((o, i) => {
+        const matches = !q || ((i + 1) + " " + names[i][0] + " " + names[i][1]).toLowerCase().includes(q);
+        o.hidden = !matches;
+        const tile = grid.children[i];
+        if (tile) tile.hidden = !matches;
+      });
     });
     $("quranBookmark").addEventListener("click", () => { localStorage.setItem("lml_quran_bookmark", String(currentSurah)); $("quranBookmark").textContent = "★ Bookmarked"; $("quranStatus").textContent = "Bookmark saved on this device."; });
     $("quranResume").addEventListener("click", () => { const id = Number(localStorage.getItem("lml_quran_last") || localStorage.getItem("lml_quran_bookmark") || 1); select.value = String(id); openSelected(); });
     $("quranDownloadCurrent").addEventListener("click", async () => { $("quranStatus").textContent = "Saving this surah…"; try { render(await loadSurah(currentSurah, true)); } catch (e) { $("quranStatus").textContent = "Download failed: " + e.message; } });
     $("quranDownloadAll").addEventListener("click", downloadAll);
     const last = Number(localStorage.getItem("lml_quran_last") || 1); select.value = String(last);
+    currentSurah = last; updateSurahTiles();
     openSelected();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();

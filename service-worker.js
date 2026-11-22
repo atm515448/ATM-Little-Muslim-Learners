@@ -1,9 +1,9 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v8";
+const CACHE_NAME = "atm-little-muslim-learners-v9";
 const APP_FILES = [
-  "./", "./index.html", "./style.css", "./quran-reader.css",
+  "./", "./index.html", "./style.css", "./quran-reader.css", "./dictionary.css", "./dictionary.js", "./dictionary-data.js",
   "./data.js", "./script.js", "./quran-reader.js",
   "./harakat-practice.js", "./asmaul-husna.js", "./hisnul-muslim.js",
   "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json",

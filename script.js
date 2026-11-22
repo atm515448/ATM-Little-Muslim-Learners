@@ -375,8 +375,18 @@ function speak(text, voiceLang) {
     String(text).replace(/۝/g, "،")
   );
 
-  utterance.lang = voiceLang || "ar-SA";
-  utterance.rate = 0.55;
+  const requestedLang = voiceLang || "ar-SA";
+  const languagePrefix = requestedLang.toLowerCase().split("-")[0];
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(voice => voice.lang.toLowerCase() === requestedLang.toLowerCase()) ||
+    voices.find(voice => voice.lang.toLowerCase().startsWith(languagePrefix));
+  if (preferred) {
+    utterance.voice = preferred;
+    utterance.lang = preferred.lang;
+  } else {
+    utterance.lang = requestedLang;
+  }
+  utterance.rate = languagePrefix === "ar" ? 0.68 : 0.88;
   utterance.pitch = 1;
 
   utterance.onerror = function (event) {

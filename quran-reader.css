@@ -12,3 +12,5 @@
 .quran-meaning strong{display:block;font-size:.88rem;opacity:.75}
 .quran-credit{font-size:.8rem;opacity:.75;margin-top:22px;line-height:1.6}
 @media(max-width:480px){.quran-actions .btn{flex:1 1 100%}.quran-arabic{font-size:1.65rem}}
+
+.quran-surah-accessible{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
