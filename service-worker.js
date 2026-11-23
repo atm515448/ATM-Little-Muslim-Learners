@@ -1,7 +1,7 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v17";
+const CACHE_NAME = "atm-little-muslim-learners-v18";
 
 /* Web data the app reads (Quran text, reciters, Hadith text). Saved the first time it is opened, then used offline. Audio is not saved. */
 const DATA_HOSTS = ["quranenc.com", "mp3quran.net", "cdn.jsdelivr.net", "data.alhudamedia.com"];
@@ -9,7 +9,7 @@ const APP_FILES = [
   "./", "./index.html", "./style.css", "./quran-reader.css", "./dictionary.css", "./dictionary.js", "./dictionary-data.js",
   "./data.js", "./script.js", "./quran-reader.js",
   "./harakat-practice.js", "./asmaul-husna.js", "./hisnul-muslim.js",
-  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./ATM-LML-brand-logo.png",
+  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./qibla.js", "./ATM-LML-brand-logo.png",
   "./logo.png", "./icon-192.png", "./icon-512.png"
 ];
 
