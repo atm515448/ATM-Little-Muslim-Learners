@@ -1,4 +1,4 @@
-/* Prayer times and Adhan reminders. Times are calculated on the phone from the location (Muslim World League angles, Shafi'i Asr). Works offline. Confirm with your local mosque. */
+/* Prayer times and Adhan reminders. Times are calculated on the phone from the location (Fajr 18°, Isha 18°, Shafi'i Asr). Works offline. Confirm with your local mosque. */
 "use strict";
 (function () {
   const KEY = "lmlPrayer";
@@ -46,7 +46,7 @@
     // Shafi'i Asr: shadow equals object length plus the object's own length.
     const asrAlt = deg(Math.atan(1 / (1 + Math.tan(Math.abs(rad(lat - sun.decl))))));
     const hFajr = hourAngle(lat, sun.decl, -18);
-    const hIsha = hourAngle(lat, sun.decl, -17);
+    const hIsha = hourAngle(lat, sun.decl, -18);
     const hRise = hourAngle(lat, sun.decl, -0.833);
     const hAsr = hourAngle(lat, sun.decl, asrAlt);
     const sunrise = hRise === null ? null : transit - hRise;
