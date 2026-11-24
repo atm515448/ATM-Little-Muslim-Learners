@@ -1,7 +1,7 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v20";
+const CACHE_NAME = "atm-little-muslim-learners-v21";
 
 /* Web data the app reads (Quran text, reciters, Hadith text). Saved the first time it is opened, then used offline. Audio is not saved. */
 const DATA_HOSTS = ["quranenc.com", "mp3quran.net", "cdn.jsdelivr.net", "data.alhudamedia.com"];

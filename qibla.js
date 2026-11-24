@@ -16,9 +16,9 @@
   const style = document.createElement("style");
   style.textContent = `
     .lml-qibla { display: grid; gap: 10px; justify-items: center; text-align: center; }
-    .lml-qibla-dial { position: relative; width: 200px; height: 200px; border-radius: 50%; border: 3px solid currentColor; }
+    .lml-qibla-dial { position: relative; width: 150px; height: 150px; border-radius: 50%; border: 3px solid currentColor; }
     .lml-qibla-arrow { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-origin: 0 0; transition: transform .25s ease-out; }
-    .lml-qibla-arrow::before { content: ""; position: absolute; left: -10px; top: -88px; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 90px solid #26a360; }
+    .lml-qibla-arrow::before { content: ""; position: absolute; left: -8px; top: -66px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 68px solid #26a360; }
     .lml-qibla-north { position: absolute; left: 50%; top: 4px; transform: translateX(-50%); font-weight: 700; font-size: 14px; }
     .lml-qibla-kaaba { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 22px; }
     .lml-qibla-text { font-weight: 700; margin: 0; }

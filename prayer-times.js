@@ -127,6 +127,8 @@
 
   function render() {
     const loc = currentLocation();
+    const toggle = load(KEY, { on: false });
+    adhanBtn.textContent = toggle.on ? "🔕 Turn off Adhan reminders" : "🔔 Turn on Adhan reminders";
     if (typeof loc.lat !== "number") {
       statusEl.textContent = "Tap the button to find prayer times for where you are.";
       listEl.innerHTML = "";
