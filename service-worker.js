@@ -1,7 +1,7 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v27";
+const CACHE_NAME = "atm-little-muslim-learners-v28";
 
 /* Prayer times are calculated in the service worker too, so reminders can be sent when the app is closed. */
 importScripts("./prayer-calc.js");
@@ -12,7 +12,7 @@ const APP_FILES = [
   "./", "./index.html", "./style.css", "./quran-reader.css", "./dictionary.css", "./dictionary.js", "./dictionary-data.js",
   "./data.js", "./script.js", "./quran-reader.js",
   "./harakat-practice.js", "./asmaul-husna.js", "./hisnul-muslim.js",
-  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./qibla.js", "./prayer-times.js", "./privacy-policy.html", "./chime.wav", "./hisnul-hausa.js", "./prayer-calc.js", "./adhan-kiran-sallah.mp3", "./morning-azkar.mp3", "./evening-azkar.mp3", "./istighfar.mp3", "./one-audio.js", "./ATM-LML-brand-logo.png",
+  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./qibla.js", "./prayer-times.js", "./privacy-policy.html", "./chime.wav", "./hisnul-hausa.js", "./prayer-calc.js", "./adhan-kiran-sallah.mp3", "./morning-azkar.mp3", "./evening-azkar.mp3", "./istighfar.mp3", "./ayatul-kursi.mp3", "./one-audio.js", "./ATM-LML-brand-logo.png",
   "./logo.png", "./icon-192.png", "./icon-512.png"
 ];
 
