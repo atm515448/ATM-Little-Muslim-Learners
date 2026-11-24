@@ -86,6 +86,15 @@
     } catch (_) {}
   }
 
+  // Plays the chime while the app is open. Phones may block sound until the user has tapped the page once.
+  function playChime() {
+    try {
+      const audio = new Audio("chime.wav");
+      const played = audio.play();
+      if (played && played.catch) played.catch(() => {});
+    } catch (_) {}
+  }
+
   async function showDue(state) {
     if (!supported || Notification.permission !== "granted" || !state.on) return;
     const now = new Date();
@@ -103,8 +112,11 @@
           tag: "lml-" + key,
           icon: "icon-192.png",
           badge: "icon-192.png",
+          requireInteraction: true,
+          vibrate: [400, 200, 400],
           data: { url: "./" }
         });
+        playChime();
         state[item.last] = day;
         changed = true;
       } catch (_) {}
@@ -136,7 +148,10 @@
     <h2>🔔 Daily Reminders / Tunatarwa kullum</h2>
     <p>Get a daily reminder to read Ayatul Kursi and Istighfar.</p>
     <p class="lml-rem-status" id="lmlRemStatus" aria-live="polite"></p>
-    <div class="btn-row"><button class="btn" id="lmlRemToggle" type="button"></button></div>
+    <div class="btn-row">
+      <button class="btn" id="lmlRemToggle" type="button"></button>
+      <button class="btn alt" id="lmlRemTest" type="button">🔊 Test sound / Gwada sauti</button>
+    </div>
     <div class="lml-rem-times">
       <label>Ayatul Kursi time <input type="time" id="lmlRemAyat"></label>
       <label>Istighfar time <input type="time" id="lmlRemIst"></label>
@@ -191,6 +206,8 @@
     }
     await render();
   });
+
+  document.getElementById("lmlRemTest").addEventListener("click", () => playChime());
 
   async function timeChanged() {
     const state = await currentState();

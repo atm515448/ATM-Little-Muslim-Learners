@@ -139,6 +139,7 @@
       "سُبْحانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ أَنْتَ، أَسْتَغْفِرُكَ وَأَتوبُ إِلَيْكَ":
         "Tsarki ya tabbata a gare Ka, Ya Allah, tare da gode maka. Ina shaida babu abin bautawa da gaskiya sai Kai. Ina neman gafararka kuma ina tuba zuwa gare Ka."
     };
+    if (window.LML_HISNUL_HAUSA && window.LML_HISNUL_HAUSA[dua.id]) return window.LML_HISNUL_HAUSA[dua.id];
     return known[dua.arabic] || "";
   }
 

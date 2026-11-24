@@ -111,6 +111,7 @@
     <div class="btn-row">
       <button class="btn" id="lmlPtLocate" type="button">📍 Use my location / Yi amfani da wurina</button>
       <button class="btn alt" id="lmlPtAdhan" type="button"></button>
+      <button class="btn alt" id="lmlPtTest" type="button">🔊 Test sound / Gwada sauti</button>
     </div>
     <p class="lml-pt-note">These times are calculated for your location. Please confirm with your local mosque. / Ka tabbatar da lokutan da masallacin unguwarku.</p>`;
   const home = document.getElementById("home");
@@ -183,6 +184,17 @@
     checkDue();
   });
 
+  // Plays the Adhan chime while the app is open. Phones may block sound until the user has tapped the page once.
+  function playChime() {
+    try {
+      const audio = new Audio("chime.wav");
+      const played = audio.play();
+      if (played && played.catch) played.catch(() => {});
+    } catch (_) {}
+  }
+
+  document.getElementById("lmlPtTest").addEventListener("click", () => playChime());
+
   // Sends one reminder per prayer per day, while the app is open or the next time it opens.
   async function checkDue() {
     const state = load(KEY, { on: false });
@@ -205,8 +217,11 @@
           tag: "lml-prayer-" + key,
           icon: "icon-192.png",
           badge: "icon-192.png",
+          requireInteraction: true,
+          vibrate: [600, 300, 600],
           data: { url: "./" }
         });
+        playChime();
         state.sent[key] = day;
         changed = true;
       } catch (_) {}
