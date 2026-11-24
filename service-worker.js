@@ -1,7 +1,7 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v24";
+const CACHE_NAME = "atm-little-muslim-learners-v25";
 
 /* Prayer times are calculated in the service worker too, so reminders can be sent when the app is closed. */
 importScripts("./prayer-calc.js");
@@ -72,17 +72,19 @@ self.addEventListener("fetch", event => {
   }
 
   if (request.mode === "navigate") {
-    event.respondWith((async () => {
-      try {
-        const response = await fetch(request);
-        if (response && response.ok) {
-          const cache = await caches.open(CACHE_NAME);
-          await cache.put("./index.html", response.clone());
-        }
-        return response;
-      } catch (_) {
-        return (await caches.match("./index.html")) || Response.error();
+    // Open the saved copy of this page at once, and save the newest copy in the background.
+    // Each page is saved under its own address, so the privacy page never replaces the home page.
+    const network = fetch(request).then(async response => {
+      if (response && response.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.put(request, response.clone());
       }
+      return response;
+    }).catch(() => null);
+    event.respondWith((async () => {
+      const cached = await caches.match(request);
+      if (cached) { event.waitUntil(network); return cached; }
+      return (await network) || (await caches.match("./index.html")) || Response.error();
     })());
     return;
   }
