@@ -47,11 +47,11 @@
 
   const style = document.createElement("style");
   style.textContent = `
-    .lml-badge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
-    .lml-badge { border: 1px solid currentColor; border-radius: 10px; padding: 8px; text-align: center; opacity: .45; }
+    .lml-badge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(78px, 1fr)); gap: 6px; }
+    .lml-badge { border: 1px solid currentColor; border-radius: 8px; padding: 5px 4px; text-align: center; opacity: .45; }
     .lml-badge.earned { opacity: 1; background: rgba(242, 183, 5, 0.18); }
-    .lml-badge .icon { font-size: 22px; display: block; }
-    .lml-badge strong { display: block; font-size: 13px; margin-top: 2px; }
+    .lml-badge .icon { font-size: 18px; display: block; line-height: 1.2; }
+    .lml-badge strong { display: block; font-size: 11px; margin-top: 1px; line-height: 1.2; }
     .lml-badge small { display: block; font-size: 12px; opacity: .8; }
     .lml-badge-toast {
       position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);

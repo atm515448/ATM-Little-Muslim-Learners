@@ -50,10 +50,10 @@
   const style = document.createElement("style");
   style.textContent = `
     .lml-check-card { display: grid; gap: 10px; }
-    .lml-check-list { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; }
-    .lml-check-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; border: 1px solid currentColor; min-height: 48px; cursor: pointer; background: transparent; color: inherit; font: inherit; text-align: left; width: 100%; }
+    .lml-check-list { display: grid; gap: 6px; list-style: none; padding: 0; margin: 0; }
+    .lml-check-item { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 10px; border: 1px solid currentColor; min-height: 40px; cursor: pointer; background: transparent; color: inherit; font: inherit; text-align: left; width: 100%; }
     .lml-check-item[aria-pressed="true"] { background: rgba(38, 163, 96, 0.18); }
-    .lml-check-box { width: 26px; height: 26px; border-radius: 7px; border: 2px solid currentColor; display: grid; place-items: center; flex: 0 0 auto; font-weight: 700; }
+    .lml-check-box { width: 22px; height: 22px; border-radius: 7px; border: 2px solid currentColor; display: grid; place-items: center; flex: 0 0 auto; font-weight: 700; }
     .lml-check-item[aria-pressed="true"] .lml-check-box { background: #26a360; border-color: #26a360; color: #fff; }
     .lml-check-item small { display: block; opacity: .75; font-size: 13px; }
     .lml-check-summary { font-weight: 700; margin: 0; }
@@ -71,10 +71,15 @@
     <p class="lml-check-streak" id="lmlCheckStreak"></p>
     <ul class="lml-check-list" id="lmlCheckList"></ul>`;
 
+  // Place the checklist directly below the Learning Centre card on the Home page.
   const home = document.getElementById("home");
   if (home) {
-    const after = home.querySelector(".card") || home.firstElementChild;
-    if (after && after.parentNode === home) home.insertBefore(card, after.nextSibling);
+    const cards = Array.from(home.children).filter(el => el.classList && el.classList.contains("card"));
+    const learning = cards.find(el => {
+      const title = el.querySelector("h2");
+      return title && title.textContent.indexOf("Learning Centre") !== -1;
+    });
+    if (learning) home.insertBefore(card, learning.nextSibling);
     else home.appendChild(card);
   }
 
