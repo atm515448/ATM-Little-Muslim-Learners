@@ -132,9 +132,25 @@
   }
 
   // Plays the Adhan recording while the app is open. Phones may block sound until the user has tapped the page once.
+  let adhanSound = null;
+  const ADHAN_TEST = "🔊 Test Adhan / Gwada Kiran Sallah";
+  const ADHAN_STOP = "⏹ Stop Adhan / Tsaya";
+
+  function setAdhanTest(playing) {
+    if (testBtn) testBtn.textContent = playing ? ADHAN_STOP : ADHAN_TEST;
+  }
+
+  function stopAdhan() {
+    if (adhanSound) { adhanSound.pause(); adhanSound.currentTime = 0; adhanSound = null; }
+    setAdhanTest(false);
+  }
+
   function playAdhan() {
     try {
+      stopAdhan();
       const audio = new Audio(ADHAN_SRC);
+      adhanSound = audio;
+      audio.onended = () => { if (adhanSound === audio) { adhanSound = null; setAdhanTest(false); } };
       const played = audio.play();
       if (played && played.catch) played.catch(() => {});
     } catch (_) {}
@@ -153,7 +169,11 @@
     }, { enableHighAccuracy: false, timeout: 15000, maximumAge: 3600000 });
   });
 
-  testBtn.addEventListener("click", () => playAdhan());
+  testBtn.addEventListener("click", () => {
+    if (adhanSound) { stopAdhan(); return; }
+    playAdhan();
+    setAdhanTest(!!adhanSound);
+  });
 
   adhanBtn.addEventListener("click", async () => {
     const state = load(KEY, { on: false, sent: {} });

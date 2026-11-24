@@ -1,23 +1,25 @@
-/* Daily reminders for Ayatul Kursi and Istighfar. Adds a card to the Settings page. Works while the app is open; in the background on installed Android Chrome apps when the phone allows it. */
+/* Daily reminders for Ayatul Kursi and Istighfar. On by default: the app asks for notification permission once, and then sends a reminder every 2 hours from 7 am to 7 pm. Works while the app is open; in the background on some phones. */
 "use strict";
 (function () {
-  const KEY = "lmlReminders";
+  const KEY = "lmlRemindersV2";
   const STATE_CACHE = "lml-reminder-state";
   const STATE_URL = "./__reminder-state__.json";
   const SYNC_TAG = "lml-daily-reminders";
-  const ITEMS = {
-    ayat: {
+  // Reminder times (hours, 24-hour clock). Alternates Ayatul Kursi and Istighfar.
+  const SLOTS = [7, 9, 11, 13, 15, 17, 19];
+  const ITEMS = [
+    {
       title: "Ayatul Kursi",
       body: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ. Allah: there is no deity except Him, the Ever-Living, the Sustainer of existence.",
-      last: "lastAyat"
+      audio: "ayatul-kursi.mp3"
     },
-    ist: {
+    {
       title: "Istighfar",
       body: "أَسْتَغْفِرُ اللهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ. I seek forgiveness from Allah, the Mighty, and turn to Him in repentance.",
-      last: "lastIst"
+      audio: "istighfar.mp3"
     }
-  };
-  const DEFAULTS = { on: false, ayat: "06:30", ist: "18:30", lastAyat: "", lastIst: "" };
+  ];
+  const DEFAULTS = { on: true, lastSent: "" };
 
   const supported = "Notification" in window && "serviceWorker" in navigator;
   const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
@@ -25,14 +27,16 @@
 
   function today() {
     const d = new Date();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return d.getFullYear() + "-" + m + "-" + day;
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
 
-  function minutes(hhmm) {
-    const [h, m] = String(hhmm).split(":").map(Number);
-    return h * 60 + m;
+  // The latest reminder time that has come up today, or null outside 7 am to 7 pm.
+  function currentSlot(now) {
+    const h = now.getHours();
+    if (h < SLOTS[0] || h >= SLOTS[SLOTS.length - 1] + 1) return null;
+    let slot = null;
+    for (const s of SLOTS) if (s <= h) slot = s;
+    return slot;
   }
 
   function loadLocal() {
@@ -52,24 +56,6 @@
     } catch (_) {}
   }
 
-  async function loadShared() {
-    try {
-      const response = await caches.match(STATE_URL);
-      return response ? await response.json() : null;
-    } catch (_) { return null; }
-  }
-
-  async function currentState() {
-    const local = loadLocal();
-    const shared = await loadShared();
-    if (shared) {
-      // Keep the most recent "sent today" date from either place.
-      local.lastAyat = [local.lastAyat, shared.lastAyat].sort().pop() || "";
-      local.lastIst = [local.lastIst, shared.lastIst].sort().pop() || "";
-    }
-    return local;
-  }
-
   async function save(state) {
     saveLocal(state);
     await saveShared(state);
@@ -86,7 +72,8 @@
     } catch (_) {}
   }
 
-  // Plays the chime while the app is open. Phones may block sound until the user has tapped the page once.
+  /* ---------- Sound: one recording at a time, with Stop ---------- */
+
   let currentSound = null;
   const TEST_LABEL = "🔊 Test sound / Gwada sauti";
   const STOP_LABEL = "⏹ Stop / Tsaya";
@@ -101,45 +88,58 @@
     setTestLabel(false);
   }
 
-  function playChime() {
+  function playFile(src, fallbackChime) {
     try {
       stopSound();
-      const audio = new Audio("chime.wav");
+      const audio = new Audio(src);
       currentSound = audio;
       audio.onended = () => { if (currentSound === audio) { currentSound = null; setTestLabel(false); } };
+      audio.onerror = () => { if (fallbackChime && currentSound === audio) playFile("chime.wav", false); };
       const played = audio.play();
       if (played && played.catch) played.catch(() => {});
       setTestLabel(true);
     } catch (_) {}
   }
 
+  function playChime() { playFile("chime.wav", false); }
+
+  /* ---------- Reminders ---------- */
+
   async function showDue(state) {
     if (!supported || Notification.permission !== "granted" || !state.on) return;
     const now = new Date();
-    const nowMin = now.getHours() * 60 + now.getMinutes();
-    const day = today();
-    let changed = false;
-    for (const key of Object.keys(ITEMS)) {
-      const item = ITEMS[key];
-      if (state[item.last] === day) continue;
-      if (nowMin < minutes(state[key])) continue;
-      try {
-        const reg = await navigator.serviceWorker.ready;
-        await reg.showNotification(item.title, {
-          body: item.body,
-          tag: "lml-" + key,
-          icon: "icon-192.png",
-          badge: "icon-192.png",
-          requireInteraction: true,
-          vibrate: [400, 200, 400],
-          data: { url: "./" }
-        });
-        playChime();
-        state[item.last] = day;
-        changed = true;
-      } catch (_) {}
-    }
-    if (changed) await save(state);
+    const slot = currentSlot(now);
+    if (slot === null) return;
+    const key = today() + "-" + slot;
+    if (state.lastSent === key) return;
+    const item = ITEMS[SLOTS.indexOf(slot) % ITEMS.length];
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      await reg.showNotification(item.title, {
+        body: item.body,
+        tag: "lml-reminder",
+        icon: "icon-192.png",
+        badge: "icon-192.png",
+        requireInteraction: true,
+        vibrate: [400, 200, 400],
+        data: { url: "./" }
+      });
+      playFile(item.audio, true);
+      state.lastSent = key;
+      await save(state);
+    } catch (_) {}
+  }
+
+  async function currentState() {
+    const local = loadLocal();
+    try {
+      const response = await caches.match(STATE_URL);
+      if (response) {
+        const shared = await response.json();
+        if (shared && shared.lastSent && shared.lastSent > (local.lastSent || "")) local.lastSent = shared.lastSent;
+      }
+    } catch (_) {}
+    return local;
   }
 
   async function tick() {
@@ -147,13 +147,25 @@
     await showDue(state);
   }
 
+  // Ask for permission once, the first time the user taps anywhere (phones often require a tap first).
+  async function askPermission() {
+    if (!supported || Notification.permission !== "default") return;
+    try { await Notification.requestPermission(); } catch (_) {}
+    await render();
+    if (Notification.permission === "granted") {
+      const state = await currentState();
+      await save(state);
+      await registerBackground();
+      await tick();
+    }
+  }
+  document.addEventListener("click", askPermission, { once: true });
+  document.addEventListener("touchend", askPermission, { once: true });
+
   /* ---------- Settings card ---------- */
 
   const style = document.createElement("style");
   style.textContent = `
-    .lml-rem-times { display: grid; gap: 10px; margin-top: 10px; }
-    .lml-rem-times label { display: grid; gap: 4px; font-weight: 600; }
-    .lml-rem-times input { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid #c8d0e8; min-height: 44px; max-width: 220px; }
     .lml-rem-status, .lml-rem-note { font-size: 14px; margin: 8px 0 0; }
     .lml-rem-note { opacity: .85; }
   `;
@@ -164,15 +176,11 @@
   card.id = "lmlRemindersCard";
   card.innerHTML = `
     <h2>🔔 Daily Reminders / Tunatarwa kullum</h2>
-    <p>Get a daily reminder to read Ayatul Kursi and Istighfar.</p>
+    <p>Ayatul Kursi and Istighfar, every 2 hours from 7 am to 7 pm. / Ayatul Kursi da Istighfar, kowace awa 2 daga 7 na safe zuwa 7 na yamma.</p>
     <p class="lml-rem-status" id="lmlRemStatus" aria-live="polite"></p>
     <div class="btn-row">
       <button class="btn" id="lmlRemToggle" type="button"></button>
       <button class="btn alt" id="lmlRemTest" type="button">🔊 Test sound / Gwada sauti</button>
-    </div>
-    <div class="lml-rem-times">
-      <label>Ayatul Kursi time <input type="time" id="lmlRemAyat"></label>
-      <label>Istighfar time <input type="time" id="lmlRemIst"></label>
     </div>
     <p class="lml-rem-note" id="lmlRemNote"></p>`;
 
@@ -181,14 +189,10 @@
 
   const statusEl = document.getElementById("lmlRemStatus");
   const toggle = document.getElementById("lmlRemToggle");
-  const ayatInput = document.getElementById("lmlRemAyat");
-  const istInput = document.getElementById("lmlRemIst");
   const noteEl = document.getElementById("lmlRemNote");
 
   async function render() {
     const state = await currentState();
-    ayatInput.value = state.ayat;
-    istInput.value = state.ist;
     if (!supported) {
       statusEl.textContent = "Reminders are not supported in this browser.";
       toggle.hidden = true;
@@ -213,9 +217,7 @@
       state.on = false;
       await save(state);
     } else {
-      if (Notification.permission === "default") {
-        await Notification.requestPermission();
-      }
+      if (Notification.permission === "default") await Notification.requestPermission();
       if (Notification.permission !== "granted") { await render(); return; }
       state.on = true;
       await save(state);
@@ -231,14 +233,8 @@
     playChime();
   });
 
-  async function timeChanged() {
-    const state = await currentState();
-    state.ayat = ayatInput.value || state.ayat;
-    state.ist = istInput.value || state.ist;
-    await save(state);
-  }
-  ayatInput.addEventListener("change", timeChanged);
-  istInput.addEventListener("change", timeChanged);
+  // Let other parts of the app stop the reminder sound (for example, when another recording starts).
+  window.lmlStopReminderSound = stopSound;
 
   render();
   tick();

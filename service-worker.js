@@ -1,7 +1,7 @@
 /* ATM Little Muslim Learners — offline-first service worker */
 "use strict";
 
-const CACHE_NAME = "atm-little-muslim-learners-v26";
+const CACHE_NAME = "atm-little-muslim-learners-v27";
 
 /* Prayer times are calculated in the service worker too, so reminders can be sent when the app is closed. */
 importScripts("./prayer-calc.js");
@@ -12,7 +12,7 @@ const APP_FILES = [
   "./", "./index.html", "./style.css", "./quran-reader.css", "./dictionary.css", "./dictionary.js", "./dictionary-data.js",
   "./data.js", "./script.js", "./quran-reader.js",
   "./harakat-practice.js", "./asmaul-husna.js", "./hisnul-muslim.js",
-  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./qibla.js", "./prayer-times.js", "./privacy-policy.html", "./chime.wav", "./hisnul-hausa.js", "./prayer-calc.js", "./adhan-kiran-sallah.mp3", "./morning-azkar.mp3", "./evening-azkar.mp3", "./ATM-LML-brand-logo.png",
+  "./hadith.js", "./firebase.js", "./catalogue.json", "./manifest.json", "./tasbih.js", "./install-app.js", "./install-popup.js", "./reminders.js", "./daily-checklist.js", "./badges.js", "./share-feedback.js", "./qibla.js", "./prayer-times.js", "./privacy-policy.html", "./chime.wav", "./hisnul-hausa.js", "./prayer-calc.js", "./adhan-kiran-sallah.mp3", "./morning-azkar.mp3", "./evening-azkar.mp3", "./istighfar.mp3", "./one-audio.js", "./ATM-LML-brand-logo.png",
   "./logo.png", "./icon-192.png", "./icon-512.png"
 ];
 
@@ -175,27 +175,21 @@ async function showDuePrayers() {
     console.warn("ATM LML: prayer check failed", error);
   }
 }
-const REMINDER_ITEMS = {
-  ayat: {
+const REMINDER_SLOTS = [7, 9, 11, 13, 15, 17, 19];
+const REMINDER_ITEMS = [
+  {
     title: "Ayatul Kursi",
-    body: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ. Allah: there is no deity except Him, the Ever-Living, the Sustainer of existence.",
-    last: "lastAyat"
+    body: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ. Allah: there is no deity except Him, the Ever-Living, the Sustainer of existence."
   },
-  ist: {
+  {
     title: "Istighfar",
-    body: "أَسْتَغْفِرُ اللهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ. I seek forgiveness from Allah, the Mighty, and turn to Him in repentance.",
-    last: "lastIst"
+    body: "أَسْتَغْفِرُ اللهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ. I seek forgiveness from Allah, the Mighty, and turn to Him in repentance."
   }
-};
+];
 
 function reminderToday() {
   const d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-}
-
-function reminderMinutes(hhmm) {
-  const [h, m] = String(hhmm || "0:0").split(":").map(Number);
-  return h * 60 + m;
 }
 
 async function showDueReminders() {
@@ -204,28 +198,25 @@ async function showDueReminders() {
     if (!cached) return;
     const state = await cached.json();
     if (!state || !state.on || self.Notification.permission !== "granted") return;
-    const now = new Date();
-    const nowMin = now.getHours() * 60 + now.getMinutes();
-    const day = reminderToday();
-    let changed = false;
-    for (const key of Object.keys(REMINDER_ITEMS)) {
-      const item = REMINDER_ITEMS[key];
-      if (state[item.last] === day) continue;
-      if (nowMin < reminderMinutes(state[key])) continue;
-      await self.registration.showNotification(item.title, {
-        body: item.body,
-        tag: "lml-" + key,
-        icon: "icon-192.png",
-        badge: "icon-192.png",
-        data: { url: "./" }
-      });
-      state[item.last] = day;
-      changed = true;
-    }
-    if (changed) {
-      const store = await caches.open(REMINDER_CACHE);
-      await store.put(REMINDER_URL, new Response(JSON.stringify(state), { headers: { "Content-Type": "application/json" } }));
-    }
+    const h = new Date().getHours();
+    if (h < REMINDER_SLOTS[0] || h >= REMINDER_SLOTS[REMINDER_SLOTS.length - 1] + 1) return;
+    let slot = null;
+    for (const s of REMINDER_SLOTS) if (s <= h) slot = s;
+    const key = reminderToday() + "-" + slot;
+    if (state.lastSent === key) return;
+    const item = REMINDER_ITEMS[REMINDER_SLOTS.indexOf(slot) % REMINDER_ITEMS.length];
+    await self.registration.showNotification(item.title, {
+      body: item.body,
+      tag: "lml-reminder",
+      icon: "icon-192.png",
+      badge: "icon-192.png",
+      requireInteraction: true,
+      vibrate: [400, 200, 400],
+      data: { url: "./" }
+    });
+    state.lastSent = key;
+    const store = await caches.open(REMINDER_CACHE);
+    await store.put(REMINDER_URL, new Response(JSON.stringify(state), { headers: { "Content-Type": "application/json" } }));
   } catch (error) {
     console.warn("ATM LML: reminder check failed", error);
   }
