@@ -105,6 +105,11 @@
           </button>
 
           <!-- DAILY TASBIH -->
+          <button class="lesson-card" data-open-tab="adhkarAudio">
+            <span>🎧</span>
+            <strong>Morning &amp; Evening Azkar</strong>
+          </button>
+
           <button class="lesson-card" data-open-tab="tasbih">
             <span>📿</span>
             <strong>Daily Tasbih &amp; Dhikr</strong>
@@ -186,6 +191,32 @@
         <h3>📖 Ayatul Kursi — Phrase-by-Phrase Audio</h3>
         <p>Listen to the verses in short parts and practise the pronunciation.</p>
         <button class="btn" id="s4" type="button">🎧 Start Ayatul Kursi</button>
+      </div>
+    </section>
+
+    <!-- MORNING & EVENING AZKAR PAGE -->
+    <section id="adhkarAudio" class="panel">
+      <div class="card">
+        <h2>🎧 Morning &amp; Evening Azkar / Azkar na safe da na yamma</h2>
+        <p>Listen and recite along. The audio can be played offline after the app has been opened once.</p>
+        <h3>🌅 Morning Azkar / Azkar na safe</h3>
+        <audio controls preload="none" src="morning-azkar.mp3" style="width:100%;"></audio>
+        <h3>🌇 Evening Azkar / Azkar na yamma</h3>
+        <audio controls preload="none" src="evening-azkar.mp3" style="width:100%;"></audio>
+      </div>
+
+      <div class="card">
+        <h2>📖 Ayatul Kursi / Ayatul Kursiyyu</h2>
+        <p dir="rtl" class="arabic" lang="ar">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</p>
+        <p><strong>Hausa:</strong> Allah! Babu abin bautawa da gaskiya sai Shi, Mai rai, Mai tsayar da komai. Barci ko bacci ba sa kama Shi. Duk abin da ke cikin sammai da ƙasa nasa ne. Wa zai iya yin ceto a wurinSa sai da izininSa? Yana sane da abin da ke gabansu da abin da ke bayansu, kuma ba sa sanin komai daga iliminSa sai abin da Ya so. KursiyyinSa ya kewaye sammai da ƙasa, kuma kiyaye su ba ya gajiyar da Shi. Shi ne Maɗaukaki, Mai girma.</p>
+        <p><strong>English:</strong> Allah—there is no deity except Him, the Ever-Living, the Sustainer of all. Neither drowsiness nor sleep overtakes Him. Everything in the heavens and on the earth belongs to Him. His Kursi extends over the heavens and the earth, and preserving them does not tire Him. He is the Most High, the Magnificent.</p>
+      </div>
+
+      <div class="card">
+        <h2>🤲 Istighfar / Istigfari</h2>
+        <p dir="rtl" class="arabic" lang="ar">أَسْتَغْفِرُ اللهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ</p>
+        <p><strong>Hausa:</strong> Ina neman gafarar Allah Maɗaukaki, kuma ina tuba zuwa gare Shi.</p>
+        <p><strong>English:</strong> I seek forgiveness from Allah, the Mighty, and turn to Him in repentance.</p>
       </div>
     </section>
 
@@ -416,6 +447,7 @@
   <script src="badges.js"></script>
   <script src="share-feedback.js"></script>
   <script src="qibla.js"></script>
+  <script src="prayer-calc.js"></script>
   <script src="prayer-times.js"></script>
   <script src="quran-reader.js"></script>
   <script src="harakat-practice.js"></script>
