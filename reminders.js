@@ -87,11 +87,29 @@
   }
 
   // Plays the chime while the app is open. Phones may block sound until the user has tapped the page once.
+  let currentSound = null;
+  const TEST_LABEL = "🔊 Test sound / Gwada sauti";
+  const STOP_LABEL = "⏹ Stop / Tsaya";
+
+  function setTestLabel(playing) {
+    const testButton = document.getElementById("lmlRemTest");
+    if (testButton) testButton.textContent = playing ? STOP_LABEL : TEST_LABEL;
+  }
+
+  function stopSound() {
+    if (currentSound) { currentSound.pause(); currentSound.currentTime = 0; currentSound = null; }
+    setTestLabel(false);
+  }
+
   function playChime() {
     try {
+      stopSound();
       const audio = new Audio("chime.wav");
+      currentSound = audio;
+      audio.onended = () => { if (currentSound === audio) { currentSound = null; setTestLabel(false); } };
       const played = audio.play();
       if (played && played.catch) played.catch(() => {});
+      setTestLabel(true);
     } catch (_) {}
   }
 
@@ -207,7 +225,11 @@
     await render();
   });
 
-  document.getElementById("lmlRemTest").addEventListener("click", () => playChime());
+  const testBtnEl = document.getElementById("lmlRemTest");
+  if (testBtnEl) testBtnEl.addEventListener("click", () => {
+    if (currentSound) { stopSound(); return; }
+    playChime();
+  });
 
   async function timeChanged() {
     const state = await currentState();
